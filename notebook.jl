@@ -33,15 +33,20 @@ or this
 ```rust
 // Single line comments, similar to #
 
-/* Multiline
+/* Multi-line
 comments similar to #= =#
 */
 ```
 """
 
+# ╔═╡ f2f0b0ee-1474-440f-b49d-3bc750c13a66
+md"""
+## Common Programming Concepts
+"""
+
 # ╔═╡ 39f4026f-9c7a-4dd3-9cfd-03db6003e5bc
 md"""
-## Data types
+### Data types
 
 All pretty analogous to type annotations in Julia, with the exception of `String`s:
 """
@@ -63,7 +68,7 @@ tup_inf.1; // 42.0
 
 # ╔═╡ 6440be4c-053e-4670-9757-e739e49bc357
 md"""
-### Arrays
+#### Arrays
 """
 
 # ╔═╡ a2e28dbc-a822-450c-b5b4-c1882a0e7ada
@@ -95,7 +100,7 @@ If indexing an array based on user input, the index must be cast to `usize`. I g
 """
 
 # ╔═╡ 13723396-21da-43d1-b27c-ea8cbefc6974
-TableOfContents()
+TableOfContents(; depth=4)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -371,10 +376,11 @@ version = "17.4.0+0"
 # ╔═╡ Cell order:
 # ╟─ee802ab9-90b5-449b-9df1-9c4dca647ff4
 # ╟─5da9a145-7107-4528-8203-f571116fd1bb
+# ╟─f2f0b0ee-1474-440f-b49d-3bc750c13a66
 # ╟─39f4026f-9c7a-4dd3-9cfd-03db6003e5bc
 # ╟─289d0a52-9be2-4d85-bdcd-cc0b6b5913dc
 # ╟─6440be4c-053e-4670-9757-e739e49bc357
-# ╠═a2e28dbc-a822-450c-b5b4-c1882a0e7ada
+# ╟─a2e28dbc-a822-450c-b5b4-c1882a0e7ada
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
 # ╠═13007fd8-16af-11ee-262b-1d147de47c9d
 # ╟─00000000-0000-0000-0000-000000000001
