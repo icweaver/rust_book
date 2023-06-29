@@ -68,6 +68,21 @@ let arr = [1, 10, "20"]; // Will fail
 ```
 
 Unlike in Julia, arrays are a fixed size from the jump and allocated on the stack! No external package like StaticArrays.jl required. Pretty cool
+
+!!! note
+	We can store dynamic arrays on the heap as vectors. This requires some special handling though that is [discussed later in the rust book](https://doc.rust-lang.org/book/ch08-01-vectors.html)
+
+The flipside to automatically static arrays seems to be that we need to explicitly specify its length if we want anything other than the default datatype for our elements
+
+```rust
+let arr_exp1:[f32; 3] = [1.0, 10.0, 20.0];
+```
+
+Although there may be a [future feature](https://stackoverflow.com/a/72468232) that makes this a bit more convenient
+
+```rust
+let arr_exp1:[f32; _] = [1.0, 10.0, 20.0];
+```
 """
 
 # ╔═╡ 13723396-21da-43d1-b27c-ea8cbefc6974
@@ -367,7 +382,7 @@ version = "17.4.0+0"
 # ╟─ee802ab9-90b5-449b-9df1-9c4dca647ff4
 # ╟─5da9a145-7107-4528-8203-f571116fd1bb
 # ╟─39f4026f-9c7a-4dd3-9cfd-03db6003e5bc
-# ╠═289d0a52-9be2-4d85-bdcd-cc0b6b5913dc
+# ╟─289d0a52-9be2-4d85-bdcd-cc0b6b5913dc
 # ╟─13723396-21da-43d1-b27c-ea8cbefc6974
 # ╟─13007fd8-16af-11ee-262b-1d147de47c9d
 # ╟─00000000-0000-0000-0000-000000000001

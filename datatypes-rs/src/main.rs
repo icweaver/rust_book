@@ -23,6 +23,9 @@ fn main() {
     let (x, y, z) = tup_inf; // And unpacked
     dbg!(tup, tup_inf, x, y, z, tup_inf.1); // Tuples accessed through 0-based indexing =/
                                             //
-    let arr = [1, 10, 20];
-    dbg!(arr);
+    let arr_inf1 = [1, 10, 20];
+    let arr_inf2 = [3; 4];
+    let arr_exp1:[f32; 3] = [1.0, 10.0, 20.0];
+    let arr_exp2:[_; 3] = [1.0f32, 10.0, 20.0];
+    dbg!(arr_inf1, arr_inf2, arr_exp1, arr_exp2);
 }
