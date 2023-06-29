@@ -99,6 +99,19 @@ let arr_exp1:[f32; _] = [1.0, 10.0, 20.0];
 If indexing an array based on user input, the index must be cast to `usize`. I guess this ensures that it will always work on 32 and 64 bit systems
 """
 
+# ╔═╡ bcc19246-f947-4d33-ab02-f6a91a71af1b
+md"""
+### Functions
+
+Type annotations required
+
+```rust
+fn f2(x: u32) {
+    println!("f2 function: {x}");
+}
+```
+"""
+
 # ╔═╡ 13723396-21da-43d1-b27c-ea8cbefc6974
 TableOfContents(; depth=4)
 
@@ -381,6 +394,7 @@ version = "17.4.0+0"
 # ╟─289d0a52-9be2-4d85-bdcd-cc0b6b5913dc
 # ╟─6440be4c-053e-4670-9757-e739e49bc357
 # ╟─a2e28dbc-a822-450c-b5b4-c1882a0e7ada
+# ╟─bcc19246-f947-4d33-ab02-f6a91a71af1b
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
 # ╠═13007fd8-16af-11ee-262b-1d147de47c9d
 # ╟─00000000-0000-0000-0000-000000000001
