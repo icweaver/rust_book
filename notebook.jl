@@ -7,17 +7,18 @@ using InteractiveUtils
 # ╔═╡ 13007fd8-16af-11ee-262b-1d147de47c9d
 begin
 	using PlutoUI
+	using MarkdownLiteral: @mdx
 end
 
 # ╔═╡ ee802ab9-90b5-449b-9df1-9c4dca647ff4
-md"""
+@mdx """
 # Stepping between Julia and Rust
 
 Some quick, disorganized notes as I stumble between the two
 """
 
 # ╔═╡ 5da9a145-7107-4528-8203-f571116fd1bb
-md"""
+@mdx """
 ## Style
 
 Semicolons. Semicolons everywhere
@@ -42,12 +43,12 @@ Unless we want to [return a value in a function](#functions)
 """
 
 # ╔═╡ f2f0b0ee-1474-440f-b49d-3bc750c13a66
-md"""
+@mdx """
 ## Common Programming Concepts
 """
 
 # ╔═╡ 39f4026f-9c7a-4dd3-9cfd-03db6003e5bc
-md"""
+@mdx """
 ### Data types
 
 All pretty analogous to type annotations in Julia, with the exception of `String`s:
@@ -69,7 +70,7 @@ tup_inf.1; // 42.0
 """
 
 # ╔═╡ 6440be4c-053e-4670-9757-e739e49bc357
-md"""
+@mdx """
 #### Arrays
 """
 
@@ -102,7 +103,7 @@ If indexing an array based on user input, the index must be cast to `usize`. I g
 """
 
 # ╔═╡ bcc19246-f947-4d33-ab02-f6a91a71af1b
-md"""
+@mdx """
 ### Functions
 
 Type annotations required
@@ -120,9 +121,11 @@ TableOfContents(; depth=4)
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
+MarkdownLiteral = "736d6165-7244-6769-4267-6b50796e6954"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
+MarkdownLiteral = "~0.1.1"
 PlutoUI = "~0.7.51"
 """
 
@@ -132,7 +135,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "dcebd3174a85b0f68c71e8431fe1914ebcbe8db2"
+project_hash = "b6c13b36749f7d8040581a88bb6e471b95c2ebee"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -156,10 +159,21 @@ git-tree-sha1 = "eb7f0f8307f71fac7c606984ea5fb2817275d6e4"
 uuid = "3da002f7-5984-5a60-b8a6-cbb66c0b333f"
 version = "0.11.4"
 
+[[deps.CommonMark]]
+deps = ["Crayons", "JSON", "PrecompileTools", "URIs"]
+git-tree-sha1 = "532c4185d3c9037c0237546d817858b23cf9e071"
+uuid = "a80b9123-70ca-4bc0-993e-6e3bcb318db6"
+version = "0.8.12"
+
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
 version = "1.0.2+0"
+
+[[deps.Crayons]]
+git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
+uuid = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
+version = "4.1.1"
 
 [[deps.Dates]]
 deps = ["Printf"]
@@ -244,6 +258,12 @@ version = "0.1.4"
 [[deps.Markdown]]
 deps = ["Base64"]
 uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
+
+[[deps.MarkdownLiteral]]
+deps = ["CommonMark", "HypertextLiteral"]
+git-tree-sha1 = "0d3fa2dd374934b62ee16a4721fe68c418b92899"
+uuid = "736d6165-7244-6769-4267-6b50796e6954"
+version = "0.1.1"
 
 [[deps.MbedTLS_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -390,13 +410,13 @@ version = "17.4.0+0"
 
 # ╔═╡ Cell order:
 # ╟─ee802ab9-90b5-449b-9df1-9c4dca647ff4
-# ╠═5da9a145-7107-4528-8203-f571116fd1bb
+# ╟─5da9a145-7107-4528-8203-f571116fd1bb
 # ╟─f2f0b0ee-1474-440f-b49d-3bc750c13a66
 # ╟─39f4026f-9c7a-4dd3-9cfd-03db6003e5bc
 # ╟─289d0a52-9be2-4d85-bdcd-cc0b6b5913dc
 # ╟─6440be4c-053e-4670-9757-e739e49bc357
 # ╟─a2e28dbc-a822-450c-b5b4-c1882a0e7ada
-# ╠═bcc19246-f947-4d33-ab02-f6a91a71af1b
+# ╟─bcc19246-f947-4d33-ab02-f6a91a71af1b
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
 # ╠═13007fd8-16af-11ee-262b-1d147de47c9d
 # ╟─00000000-0000-0000-0000-000000000001
