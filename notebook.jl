@@ -136,11 +136,13 @@ let val = 5;
 let x = if num > val {
 	1
 } else if num < val {
-	0.0
+	0.0 // Will fail at compile time
 } else {
 	-1
 };
 ```
+
+Great for ensuring type stability!
 """
 
 # ╔═╡ 13723396-21da-43d1-b27c-ea8cbefc6974
