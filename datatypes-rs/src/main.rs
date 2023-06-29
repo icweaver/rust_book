@@ -1,3 +1,5 @@
+use std::io;
+
 fn main() {
     let x: u32 = "42".parse().expect("Not a number");
     let y = x / 2; // x / 2.0 will fail because types are not automatically promoted
@@ -28,4 +30,15 @@ fn main() {
     let arr_exp1:[f32; 3] = [1.0, 10.0, 20.0];
     let arr_exp2:[_; 3] = [1.0f32, 10.0, 20.0];
     dbg!(arr_inf1, arr_inf2, arr_exp1, arr_exp2);
+
+    let mut ind = String::new();
+    io::stdin()
+        .read_line(&mut ind)
+        .expect("Failed to read line");
+    let ind: usize = ind
+        .trim()
+        .parse()
+        .expect("Index entered no a number");
+    let elem = arr_exp2[ind];
+    dbg!(ind, elem);
 }

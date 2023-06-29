@@ -60,8 +60,16 @@ Tuples accessed through indexing instead of names. Also 0-based =/
 let (x, y, z) = tup_inf;
 tup_inf.1; // 42.0
 ```
+"""
 
-Arrays must be homogeneous
+# ╔═╡ 6440be4c-053e-4670-9757-e739e49bc357
+@mdx """
+### Arrays
+"""
+
+# ╔═╡ a2e28dbc-a822-450c-b5b4-c1882a0e7ada
+md"""
+Must be homogeneous
 
 ```rust
 let arr = [1, 10, "20"]; // Will fail
@@ -83,6 +91,8 @@ Although there may be a [future feature](https://stackoverflow.com/a/72468232) t
 ```rust
 let arr_exp1:[f32; _] = [1.0, 10.0, 20.0];
 ```
+
+If indexing an array based on user input, the index must be cast to `usize`. I guess this ensures that it will always work on 32 and 64 bit systems
 """
 
 # ╔═╡ 13723396-21da-43d1-b27c-ea8cbefc6974
@@ -383,6 +393,8 @@ version = "17.4.0+0"
 # ╟─5da9a145-7107-4528-8203-f571116fd1bb
 # ╟─39f4026f-9c7a-4dd3-9cfd-03db6003e5bc
 # ╟─289d0a52-9be2-4d85-bdcd-cc0b6b5913dc
+# ╟─6440be4c-053e-4670-9757-e739e49bc357
+# ╠═a2e28dbc-a822-450c-b5b4-c1882a0e7ada
 # ╟─13723396-21da-43d1-b27c-ea8cbefc6974
 # ╟─13007fd8-16af-11ee-262b-1d147de47c9d
 # ╟─00000000-0000-0000-0000-000000000001
