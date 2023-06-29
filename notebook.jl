@@ -47,7 +47,7 @@ All pretty analogous to type annotations in Julia, with the exception of `String
 """
 
 # ╔═╡ 289d0a52-9be2-4d85-bdcd-cc0b6b5913dc
-@mdx """
+md"""
 ```rust
 let tup:(u32, f32, &str) = (42, 42.0, "42"); // Explicit
 let tup_inf = (42, 42.0, "42"); // Inferred
