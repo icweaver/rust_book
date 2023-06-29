@@ -106,11 +106,19 @@ If indexing an array based on user input, the index must be cast to `usize`. I g
 @mdx """
 ### Functions
 
-Type annotations required
+Type annotations on args required
 
 ```rust
 fn f2(x: u32) {
     println!("f2 function: {x}");
+}
+```
+
+Type annotation on function required if returning value
+
+```rust
+fn f3() -> u32 {
+    5
 }
 ```
 """
