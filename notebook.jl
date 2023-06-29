@@ -37,6 +37,8 @@ or this
 comments similar to #= =#
 */
 ```
+
+Unless we want to [return a value in a function](#functions)
 """
 
 # ╔═╡ f2f0b0ee-1474-440f-b49d-3bc750c13a66
@@ -388,13 +390,13 @@ version = "17.4.0+0"
 
 # ╔═╡ Cell order:
 # ╟─ee802ab9-90b5-449b-9df1-9c4dca647ff4
-# ╟─5da9a145-7107-4528-8203-f571116fd1bb
+# ╠═5da9a145-7107-4528-8203-f571116fd1bb
 # ╟─f2f0b0ee-1474-440f-b49d-3bc750c13a66
 # ╟─39f4026f-9c7a-4dd3-9cfd-03db6003e5bc
 # ╟─289d0a52-9be2-4d85-bdcd-cc0b6b5913dc
 # ╟─6440be4c-053e-4670-9757-e739e49bc357
 # ╟─a2e28dbc-a822-450c-b5b4-c1882a0e7ada
-# ╟─bcc19246-f947-4d33-ab02-f6a91a71af1b
+# ╠═bcc19246-f947-4d33-ab02-f6a91a71af1b
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
 # ╠═13007fd8-16af-11ee-262b-1d147de47c9d
 # ╟─00000000-0000-0000-0000-000000000001
