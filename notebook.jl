@@ -102,6 +102,11 @@ let arr_exp1:[f32; _] = [1.0, 10.0, 20.0];
 If indexing an array based on user input, the index must be cast to `usize`. I guess this ensures that it will always work on 32 and 64 bit systems
 """
 
+# ╔═╡ 3110e1f2-80d5-4c6a-8526-86725dbe88ee
+md"""
+#### Strings
+"""
+
 # ╔═╡ 2640a599-30ea-457c-9569-2c531585923d
 md"""
 ### Control flow
@@ -124,14 +129,34 @@ let x = if num > val {
 Great for ensuring type stability!
 """
 
-# ╔═╡ b527aaa9-946a-4acf-9679-b2ed48454e64
-let
-	s1 = "hi"
-	s2 = s1
-	@show s1, s2
-end
+# ╔═╡ 80c415e6-5649-45cc-b343-ddf65ffdfabd
+md"""
+## Ownership
+
+This is Rust's unique take on memory management. An example:
+
+```rust
+let x = 5; // Pushed onto stack
+let y = x; // A copy of the data pushed onto stack
+dbg!x, y) // x = 5, y = 5
+```
+
+Like in most languages, this creates i) the original data and ii) a copy, and places them in memory. Since `5` is an integer with known size, both pieces of data can be placed on the stack. In contrast to other languages, this similar operation with strings will fail by design:
+
+```rust
+let s1 = String::from("hello");
+let s2 = s1; // s1 moved to s2.
+dbg!(s1, s2); // Will fail because s1 no longer in memory.
+```
+
+What happened here is that first `s1` was created and placed on the heap because it's size cannot be determined at compile time. Next, `s1` was *moved* into `s2`. This is Rust's own terminology to make it distinct from a *shallow copy*. The difference is that in a shallow copy, both `s1` and `s2` point to the same piece of data, while in a *move*, not only do they both point to the same piece of data, but `s1` is then marked as invalid.
+"""
+
+# ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
+@htl "<hr>"
 
 # ╔═╡ d06e45b1-be6b-44a9-b87d-9987b5dd20be
+# https://github.com/JuliaPluto/PlutoUI.jl/issues/253
 macro anchor(text)
     anchid = replace(lowercase(text), r"(\s)" => "-")
     @htl "<a id=\"$anchid\" href=\"#$anchid\" class=\"anchor\"></a>"
@@ -442,10 +467,12 @@ version = "17.4.0+0"
 # ╟─289d0a52-9be2-4d85-bdcd-cc0b6b5913dc
 # ╟─6440be4c-053e-4670-9757-e739e49bc357
 # ╟─a2e28dbc-a822-450c-b5b4-c1882a0e7ada
+# ╠═3110e1f2-80d5-4c6a-8526-86725dbe88ee
 # ╟─bcc19246-f947-4d33-ab02-f6a91a71af1b
 # ╟─2640a599-30ea-457c-9569-2c531585923d
-# ╠═b527aaa9-946a-4acf-9679-b2ed48454e64
-# ╠═d06e45b1-be6b-44a9-b87d-9987b5dd20be
+# ╠═80c415e6-5649-45cc-b343-ddf65ffdfabd
+# ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
+# ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
 # ╠═13007fd8-16af-11ee-262b-1d147de47c9d
 # ╟─00000000-0000-0000-0000-000000000001
