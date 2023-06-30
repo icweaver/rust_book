@@ -9,6 +9,6 @@ fn main() {
 
     let s1 = String::from("hello");
     let s2 = s1; // s1 moved to s2.
-    // dbg!(s1, s2); // Will fail because s1 no longer in memory.
+    dbg!(s1, s2); // Will fail because s1 no longer in memory.
 }
 

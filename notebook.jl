@@ -133,15 +133,22 @@ Great for ensuring type stability!
 md"""
 ## Ownership
 
-This is Rust's unique take on memory management. An example:
+This is Rust's unique take on memory management. The gist AFAICT is that it avoids the need to rely on a slow garbage collector at runtime or the more error-prone manual memory freeing route, by automating this process for us. It does this by freeing the memory as soon as the variable using the memory goes out of scope.
+
+This is still pretty abstract, so an example:
 
 ```rust
-let x = 5; // Pushed onto stack
-let y = x; // A copy of the data pushed onto stack
-dbg!x, y) // x = 5, y = 5
+{
+	let x = 5; // Pushed onto stack
+	let y = x; // A "trivial" copy of the data made
+	// Do stuff
+	dbg!(x, y) // x = 5, y = 5
+}
+
+// Other stuff where x and y no longer in use
 ```
 
-Like in most languages, this creates i) the original data and ii) a copy, and places them in memory. Since `5` is an integer with known size, both pieces of data can be placed on the stack. In contrast to other languages, this similar operation with strings will fail by design:
+Like in most languages, this creates i) the original data and ii) a copy, and places them in memory[*](#trivial-copy). Since `5` is an integer with known size, both pieces of data can be placed on the stack. Once we leave the scope where they were created, the memory is then popped off the stack one at a time and is free to be used for other things. In contrast to other languages, this similar operation with strings will fail by design:
 
 ```rust
 let s1 = String::from("hello");
@@ -149,7 +156,7 @@ let s2 = s1; // s1 moved to s2.
 dbg!(s1, s2); // Will fail because s1 no longer in memory.
 ```
 
-What happened here is that first `s1` was created and placed on the heap because it's size cannot be determined at compile time. Next, `s1` was *moved* into `s2`. This is Rust's own terminology to make it distinct from a *shallow copy*. The difference is that in a shallow copy, both `s1` and `s2` point to the same piece of data, while in a *move*, not only do they both point to the same piece of data, but `s1` is then marked as invalid.
+What happened here is that first `s1` was created and placed on the heap because its size cannot be determined at compile time. Next, `s1` was *moved* into `s2`. This is Rust's own terminology to make it distinct from a *shallow copy*. The difference is that in a shallow copy, both `s1` and `s2` point to the same piece of data, while in a move, not only do they both point to the same piece of data, but `s1` is then marked as invalid. This last bit is very neat because it avoids the common memory allocation error of double freeing once we leave its scope, which can corrupt memory and introduce security vulnerabilities.
 """
 
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
@@ -181,6 +188,14 @@ fn f3() -> u32 {
     5 // No semicolon here because we want to return a value
 }
 ```
+"""
+
+# ╔═╡ 6219b8f5-df7a-42bc-bc13-d8345b25d12e
+md"""
+$(@anchor "trivial-copy")
+!!! warning "Aside"
+	
+	*They call this a "trivial" copy, so not sure if these are both distinct locations in the stack, or just the original data is. May just be an implementation detail.
 """
 
 # ╔═╡ 13723396-21da-43d1-b27c-ea8cbefc6974
@@ -470,7 +485,8 @@ version = "17.4.0+0"
 # ╠═3110e1f2-80d5-4c6a-8526-86725dbe88ee
 # ╟─bcc19246-f947-4d33-ab02-f6a91a71af1b
 # ╟─2640a599-30ea-457c-9569-2c531585923d
-# ╠═80c415e6-5649-45cc-b343-ddf65ffdfabd
+# ╟─80c415e6-5649-45cc-b343-ddf65ffdfabd
+# ╟─6219b8f5-df7a-42bc-bc13-d8345b25d12e
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
