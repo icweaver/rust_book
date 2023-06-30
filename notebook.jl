@@ -141,6 +141,26 @@ let x = if num > val {
 Great for ensuring type stability!
 """
 
+# ╔═╡ 12304a91-9688-4bd6-a7d7-3c2c546dff50
+md"""
+The idea of ownership also applies to the scope of functions!
+
+```rust
+let s = String::from("yo");
+takes_ownership(s);
+dbg!(s); // Can no longer be used, owned by takes_ownership function now
+
+fn takes_ownership(s: String) {
+	dbg!(s);
+}
+```
+"""
+
+# ╔═╡ 382a6158-268a-4457-ba75-ce6e35e1edd2
+md"""
+Now what if we want to pass a value to a function, but not let the function take ownership? Enter *borrowing*
+"""
+
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
 @htl "<hr>"
 
@@ -499,6 +519,8 @@ version = "17.4.0+0"
 # ╟─2640a599-30ea-457c-9569-2c531585923d
 # ╟─80c415e6-5649-45cc-b343-ddf65ffdfabd
 # ╟─6219b8f5-df7a-42bc-bc13-d8345b25d12e
+# ╟─12304a91-9688-4bd6-a7d7-3c2c546dff50
+# ╟─382a6158-268a-4457-ba75-ce6e35e1edd2
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
