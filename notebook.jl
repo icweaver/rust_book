@@ -7,18 +7,18 @@ using InteractiveUtils
 # ╔═╡ 13007fd8-16af-11ee-262b-1d147de47c9d
 begin
 	using PlutoUI
-	using MarkdownLiteral: @mdx
+	using CommonMark
 end
 
 # ╔═╡ ee802ab9-90b5-449b-9df1-9c4dca647ff4
-@mdx """
+cm"""
 # Stepping between Julia and Rust
 
 Some quick, disorganized notes as I stumble between the two
 """
 
 # ╔═╡ 5da9a145-7107-4528-8203-f571116fd1bb
-@mdx """
+cm"""
 ## Style
 
 Semicolons. Semicolons everywhere
@@ -43,12 +43,12 @@ Unless we want to [return a value in a function](#functions)
 """
 
 # ╔═╡ f2f0b0ee-1474-440f-b49d-3bc750c13a66
-@mdx """
+cm"""
 ## Common Programming Concepts
 """
 
 # ╔═╡ 39f4026f-9c7a-4dd3-9cfd-03db6003e5bc
-@mdx """
+cm"""
 ### Data types
 
 All pretty analogous to type annotations in Julia, with the exception of `String`s:
@@ -70,7 +70,7 @@ tup_inf.1; // 42.0
 """
 
 # ╔═╡ 6440be4c-053e-4670-9757-e739e49bc357
-@mdx """
+cm"""
 #### Arrays
 """
 
@@ -103,7 +103,7 @@ If indexing an array based on user input, the index must be cast to `usize`. I g
 """
 
 # ╔═╡ bcc19246-f947-4d33-ab02-f6a91a71af1b
-@mdx """
+cm"""
 ### Functions
 
 Type annotations on args required
@@ -118,13 +118,13 @@ Type annotation on function required if returning value
 
 ```rust
 fn f3() -> u32 {
-    5
+    5 // No semicolon here because we want to return a value
 }
 ```
 """
 
 # ╔═╡ 2640a599-30ea-457c-9569-2c531585923d
-md"""
+cm"""
 ### Control flow
 
 The branches of if statments need to return the same type
@@ -145,17 +145,24 @@ let x = if num > val {
 Great for ensuring type stability!
 """
 
+# ╔═╡ b527aaa9-946a-4acf-9679-b2ed48454e64
+let
+	s1 = "hi"
+	s2 = s1
+	@show s1, s2
+end
+
 # ╔═╡ 13723396-21da-43d1-b27c-ea8cbefc6974
 TableOfContents(; depth=4)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
-MarkdownLiteral = "736d6165-7244-6769-4267-6b50796e6954"
+CommonMark = "a80b9123-70ca-4bc0-993e-6e3bcb318db6"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
-MarkdownLiteral = "~0.1.1"
+CommonMark = "~0.8.12"
 PlutoUI = "~0.7.51"
 """
 
@@ -165,7 +172,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "b6c13b36749f7d8040581a88bb6e471b95c2ebee"
+project_hash = "ad2640e3690fd2f839a0cffaabcfa87d87546933"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -288,12 +295,6 @@ version = "0.1.4"
 [[deps.Markdown]]
 deps = ["Base64"]
 uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
-
-[[deps.MarkdownLiteral]]
-deps = ["CommonMark", "HypertextLiteral"]
-git-tree-sha1 = "0d3fa2dd374934b62ee16a4721fe68c418b92899"
-uuid = "736d6165-7244-6769-4267-6b50796e6954"
-version = "0.1.1"
 
 [[deps.MbedTLS_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -448,6 +449,7 @@ version = "17.4.0+0"
 # ╟─a2e28dbc-a822-450c-b5b4-c1882a0e7ada
 # ╟─bcc19246-f947-4d33-ab02-f6a91a71af1b
 # ╟─2640a599-30ea-457c-9569-2c531585923d
+# ╠═b527aaa9-946a-4acf-9679-b2ed48454e64
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
 # ╠═13007fd8-16af-11ee-262b-1d147de47c9d
 # ╟─00000000-0000-0000-0000-000000000001
