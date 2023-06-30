@@ -7,18 +7,18 @@ using InteractiveUtils
 # ╔═╡ 13007fd8-16af-11ee-262b-1d147de47c9d
 begin
 	using PlutoUI
-	using CommonMark
+	using HypertextLiteral: @htl
 end
 
 # ╔═╡ ee802ab9-90b5-449b-9df1-9c4dca647ff4
-cm"""
+md"""
 # Stepping between Julia and Rust
 
 Some quick, disorganized notes as I stumble between the two
 """
 
 # ╔═╡ 5da9a145-7107-4528-8203-f571116fd1bb
-cm"""
+md"""
 ## Style
 
 Semicolons. Semicolons everywhere
@@ -43,12 +43,12 @@ Unless we want to [return a value in a function](#functions)
 """
 
 # ╔═╡ f2f0b0ee-1474-440f-b49d-3bc750c13a66
-cm"""
+md"""
 ## Common Programming Concepts
 """
 
 # ╔═╡ 39f4026f-9c7a-4dd3-9cfd-03db6003e5bc
-cm"""
+md"""
 ### Data types
 
 All pretty analogous to type annotations in Julia, with the exception of `String`s:
@@ -70,7 +70,7 @@ tup_inf.1; // 42.0
 """
 
 # ╔═╡ 6440be4c-053e-4670-9757-e739e49bc357
-cm"""
+md"""
 #### Arrays
 """
 
@@ -102,29 +102,8 @@ let arr_exp1:[f32; _] = [1.0, 10.0, 20.0];
 If indexing an array based on user input, the index must be cast to `usize`. I guess this ensures that it will always work on 32 and 64 bit systems
 """
 
-# ╔═╡ bcc19246-f947-4d33-ab02-f6a91a71af1b
-cm"""
-### Functions
-
-Type annotations on args required
-
-```rust
-fn f2(x: u32) {
-    println!("f2 function: {x}");
-}
-```
-
-Type annotation on function required if returning value
-
-```rust
-fn f3() -> u32 {
-    5 // No semicolon here because we want to return a value
-}
-```
-"""
-
 # ╔═╡ 2640a599-30ea-457c-9569-2c531585923d
-cm"""
+md"""
 ### Control flow
 
 The branches of if statments need to return the same type
@@ -152,17 +131,44 @@ let
 	@show s1, s2
 end
 
+# ╔═╡ d06e45b1-be6b-44a9-b87d-9987b5dd20be
+macro anchor(text)
+    anchid = replace(lowercase(text), r"(\s)" => "-")
+    @htl "<a id=\"$anchid\" href=\"#$anchid\" class=\"anchor\"></a>"
+end
+
+# ╔═╡ bcc19246-f947-4d33-ab02-f6a91a71af1b
+md"""
+### Functions $(@anchor "functions")
+
+Type annotations on args required
+
+```rust
+fn f2(x: u32) {
+    println!("f2 function: {x}");
+}
+```
+
+Type annotation on function required if returning value
+
+```rust
+fn f3() -> u32 {
+    5 // No semicolon here because we want to return a value
+}
+```
+"""
+
 # ╔═╡ 13723396-21da-43d1-b27c-ea8cbefc6974
 TableOfContents(; depth=4)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
-CommonMark = "a80b9123-70ca-4bc0-993e-6e3bcb318db6"
+HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
-CommonMark = "~0.8.12"
+HypertextLiteral = "~0.9.4"
 PlutoUI = "~0.7.51"
 """
 
@@ -172,7 +178,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "ad2640e3690fd2f839a0cffaabcfa87d87546933"
+project_hash = "11e58608bab65beeb6c78bd55bbc9fd3623da2fd"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -196,21 +202,10 @@ git-tree-sha1 = "eb7f0f8307f71fac7c606984ea5fb2817275d6e4"
 uuid = "3da002f7-5984-5a60-b8a6-cbb66c0b333f"
 version = "0.11.4"
 
-[[deps.CommonMark]]
-deps = ["Crayons", "JSON", "PrecompileTools", "URIs"]
-git-tree-sha1 = "532c4185d3c9037c0237546d817858b23cf9e071"
-uuid = "a80b9123-70ca-4bc0-993e-6e3bcb318db6"
-version = "0.8.12"
-
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
 version = "1.0.2+0"
-
-[[deps.Crayons]]
-git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
-uuid = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
-version = "4.1.1"
 
 [[deps.Dates]]
 deps = ["Printf"]
@@ -450,6 +445,7 @@ version = "17.4.0+0"
 # ╟─bcc19246-f947-4d33-ab02-f6a91a71af1b
 # ╟─2640a599-30ea-457c-9569-2c531585923d
 # ╠═b527aaa9-946a-4acf-9679-b2ed48454e64
+# ╠═d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
 # ╠═13007fd8-16af-11ee-262b-1d147de47c9d
 # ╟─00000000-0000-0000-0000-000000000001
