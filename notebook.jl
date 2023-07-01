@@ -21,7 +21,7 @@ Some quick, disorganized notes as I stumble between the two
 md"""
 ## Style
 
-Semicolons. Semicolons everywhere
+Semicolons. Semicolons everywhere;
 
 ```
 do this;
@@ -141,6 +141,33 @@ let x = if num > val {
 Great for ensuring type stability!
 """
 
+# ╔═╡ de42b816-0c66-4e77-b128-f06285c3d0a6
+md"""
+### Overview
+This is still pretty abstract, so an example:
+
+```rust
+{
+	let x = 5; // Pushed onto stack
+	let y = x; // A "trivial" copy of the data made
+	// Do stuff
+	dbg!(x, y) // x = 5, y = 5
+}
+
+// Other stuff where x and y no longer in use
+```
+
+Like in most languages, this creates i) the original data and ii) a copy, and places them in memory[*](#trivial-copy). Since `5` is an integer with known size, both pieces of data can be placed on the stack. Once we leave the scope where they were created, the memory is then popped off the stack one at a time and is free to be used for other things. In contrast to other languages, this similar operation with strings will fail by design:
+
+```rust
+let s1 = String::from("hello");
+let s2 = s1; // s1 moved to s2.
+dbg!(s1, s2); // Will fail because s1 no longer in memory.
+```
+
+What happened here is that first `s1` was created and placed on the heap because its size cannot be determined at compile time. Next, `s1` was *moved* into `s2`. This is Rust's own terminology to make it distinct from a *shallow copy*. The difference is that in a shallow copy, both `s1` and `s2` point to the same piece of data, while in a move, not only do they both point to the same piece of data, but `s1` is then marked as invalid. This last bit is very neat because it avoids the common memory allocation error of double freeing once we leave its scope, which can corrupt memory and introduce security vulnerabilities.
+"""
+
 # ╔═╡ 12304a91-9688-4bd6-a7d7-3c2c546dff50
 md"""
 The idea of ownership also applies to the scope of functions!
@@ -159,6 +186,60 @@ fn takes_ownership(s: String) {
 # ╔═╡ 382a6158-268a-4457-ba75-ce6e35e1edd2
 md"""
 Now what if we want to pass a value to a function, but not let the function take ownership? Enter *borrowing*
+"""
+
+# ╔═╡ 2464b0b3-add4-4e0e-bb61-7c4868655bb3
+md"""
+### Borrowing
+By example, let's start with a simple function that takes ownership:
+
+```rust
+fn main() {
+	let s1 = String::from("hello");
+    let n = calc_len_owned(s1);
+    dbg!(s1, n); // Will fail because s1 is owned by calc_len_owned now
+}
+
+fn calc_len_owned(s: String) -> usize {
+    s.len()
+}
+```
+"""
+
+# ╔═╡ 25a6e5fc-dc23-4450-96d9-4ad79744571c
+md"""
+This fails as expected. If we pass a *reference* to `s1` instead, it is still owned in the outer scope, and only *borrowed* in the scope of `calc_len_borrowed`:
+
+```rust
+fn main() {
+    let s1 = String::from("hello");
+    let n = calc_len_borrowed(&s1);
+    dbg!(s1, n); // "hello", 5
+}
+
+fn calc_len_borrowed(s: &String) -> usize {
+    s.len()
+}
+```
+"""
+
+# ╔═╡ e10b33b9-b38d-427f-9c75-20441e52f7a6
+md"""
+Sweet! We can also mutate references if we like by doing the following:
+
+```rust
+fn main() {
+    let mut s1 = String::from("hello");
+    change(&mut s1);
+    dbg!(s1);
+}
+
+fn change(s: &mut String) {
+    s.push_str(", world");
+}
+```
+
+Very satisfying
 """
 
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
@@ -192,34 +273,10 @@ fn f3() -> u32 {
 ```
 """
 
-# ╔═╡ 80c415e6-5649-45cc-b343-ddf65ffdfabd
+# ╔═╡ b9ddf7fd-e23e-4592-9476-bb42145a7914
 md"""
 ## Ownership $(@anchor "ownership")
-
 This is Rust's unique take on memory management. The gist AFAICT is that it avoids the need to rely on a slow garbage collector at runtime or the more error-prone manual memory freeing route, by automating this process for us. It does this by freeing the memory as soon as the variable using the memory goes out of scope.
-
-This is still pretty abstract, so an example:
-
-```rust
-{
-	let x = 5; // Pushed onto stack
-	let y = x; // A "trivial" copy of the data made
-	// Do stuff
-	dbg!(x, y) // x = 5, y = 5
-}
-
-// Other stuff where x and y no longer in use
-```
-
-Like in most languages, this creates i) the original data and ii) a copy, and places them in memory[*](#trivial-copy). Since `5` is an integer with known size, both pieces of data can be placed on the stack. Once we leave the scope where they were created, the memory is then popped off the stack one at a time and is free to be used for other things. In contrast to other languages, this similar operation with strings will fail by design:
-
-```rust
-let s1 = String::from("hello");
-let s2 = s1; // s1 moved to s2.
-dbg!(s1, s2); // Will fail because s1 no longer in memory.
-```
-
-What happened here is that first `s1` was created and placed on the heap because its size cannot be determined at compile time. Next, `s1` was *moved* into `s2`. This is Rust's own terminology to make it distinct from a *shallow copy*. The difference is that in a shallow copy, both `s1` and `s2` point to the same piece of data, while in a move, not only do they both point to the same piece of data, but `s1` is then marked as invalid. This last bit is very neat because it avoids the common memory allocation error of double freeing once we leave its scope, which can corrupt memory and introduce security vulnerabilities.
 """
 
 # ╔═╡ 6219b8f5-df7a-42bc-bc13-d8345b25d12e
@@ -517,10 +574,14 @@ version = "17.4.0+0"
 # ╟─3110e1f2-80d5-4c6a-8526-86725dbe88ee
 # ╟─bcc19246-f947-4d33-ab02-f6a91a71af1b
 # ╟─2640a599-30ea-457c-9569-2c531585923d
-# ╟─80c415e6-5649-45cc-b343-ddf65ffdfabd
+# ╟─b9ddf7fd-e23e-4592-9476-bb42145a7914
+# ╠═de42b816-0c66-4e77-b128-f06285c3d0a6
 # ╟─6219b8f5-df7a-42bc-bc13-d8345b25d12e
 # ╟─12304a91-9688-4bd6-a7d7-3c2c546dff50
 # ╟─382a6158-268a-4457-ba75-ce6e35e1edd2
+# ╟─2464b0b3-add4-4e0e-bb61-7c4868655bb3
+# ╟─25a6e5fc-dc23-4450-96d9-4ad79744571c
+# ╟─e10b33b9-b38d-427f-9c75-20441e52f7a6
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
