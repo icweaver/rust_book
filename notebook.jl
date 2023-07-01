@@ -242,6 +242,31 @@ fn change(s: &mut String) {
 Very satisfying
 """
 
+# ╔═╡ 837655d8-4949-44eb-8a7b-6e2ae26c4f8f
+md"""
+!!! note
+	Multiple mutable referenes are not allowed.
+
+	```rust
+	let mut s = String::from("hello");
+    let r1 = &mut s;
+    let r2 = &mut s;
+    dbg!(r1, r2); // Fails
+	```
+
+	This makes mutations much more controlled and avoids data races.
+
+	```rust
+	let mut s = String::from("hello");
+    {
+        let r1 = &mut s;
+        dbg!(r1);
+    }
+    let r2 = &mut s;
+	// Succeeds
+	```
+"""
+
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
 @htl "<hr>"
 
@@ -575,13 +600,14 @@ version = "17.4.0+0"
 # ╟─bcc19246-f947-4d33-ab02-f6a91a71af1b
 # ╟─2640a599-30ea-457c-9569-2c531585923d
 # ╟─b9ddf7fd-e23e-4592-9476-bb42145a7914
-# ╠═de42b816-0c66-4e77-b128-f06285c3d0a6
+# ╟─de42b816-0c66-4e77-b128-f06285c3d0a6
 # ╟─6219b8f5-df7a-42bc-bc13-d8345b25d12e
 # ╟─12304a91-9688-4bd6-a7d7-3c2c546dff50
 # ╟─382a6158-268a-4457-ba75-ce6e35e1edd2
 # ╟─2464b0b3-add4-4e0e-bb61-7c4868655bb3
 # ╟─25a6e5fc-dc23-4450-96d9-4ad79744571c
 # ╟─e10b33b9-b38d-427f-9c75-20441e52f7a6
+# ╟─837655d8-4949-44eb-8a7b-6e2ae26c4f8f
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
