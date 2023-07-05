@@ -269,7 +269,7 @@ md"""
 
 # ╔═╡ 95735f94-1c75-461c-a114-bd4cafea64d9
 md"""
-### Slices
+### Slices with Daniel
 
 This is a type of reference to strings that lets us take subsets of it. These subsets are of type `&str`
 
@@ -660,7 +660,7 @@ version = "17.4.0+0"
 # ╟─25a6e5fc-dc23-4450-96d9-4ad79744571c
 # ╟─e10b33b9-b38d-427f-9c75-20441e52f7a6
 # ╟─837655d8-4949-44eb-8a7b-6e2ae26c4f8f
-# ╟─95735f94-1c75-461c-a114-bd4cafea64d9
+# ╠═95735f94-1c75-461c-a114-bd4cafea64d9
 # ╟─853c4850-9f75-408c-9f1b-d98a84ff444e
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
