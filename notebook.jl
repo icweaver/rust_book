@@ -377,7 +377,7 @@ md"""
 We can also control the display options for structs, along with some other handy debug options:
 
 ```rust
-// Implements the Debug trait so that the #? print option will work
+// Implements the Debug trait so that the #? pretty-print option will work
 #[derive(Debug)]
 struct Rectangle {
     width: u32,
@@ -392,10 +392,10 @@ fn main() {
     };
 
     println!("{rect1:#?}");
-    println!("Area: {}", area(rect1));
+    println!("Area: {}", area(&rect1));
 }
 
-fn area(r: Rectangle) -> u32 {
+fn area(r: &Rectangle) -> u32 {
     r.width * r.height
 }
 ```
