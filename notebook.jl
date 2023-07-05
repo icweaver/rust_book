@@ -269,7 +269,7 @@ md"""
 
 # ╔═╡ 95735f94-1c75-461c-a114-bd4cafea64d9
 md"""
-### Slices with Daniel and Ian
+### Slices
 
 This is a type of reference to strings that lets us take subsets of it. These subsets are of type `&str`
 
@@ -317,6 +317,97 @@ md"""
 	```
 
 	Now it can accept things like `"Hello world"`, `"Hello world"[..3]`, etc. in addition to `String::from("Hello world")`
+"""
+
+# ╔═╡ 95d4627f-cd12-4694-860a-9ad26b5bf1c7
+md"""
+## Structs
+
+Pretty similar to Julia, with some nice additional features
+
+```rust
+    struct User {
+        active: bool, // Field types required
+        username: String,
+        age: usize,
+    }
+
+    let user1 = build_user(String::from("Alice"), 30);
+
+    // Nice field unpacking
+	let user2 = User {username: String::from("Bob"), ..user1};
+
+    dbg!(user1.active, user1.username, user1.age);
+    dbg!(user2.active, user2.username, user2.age);
+
+    fn build_user(username: String, age:usize) -> User {
+        User {
+            active: true,
+            username,
+            age,
+        }
+    }
+```
+"""
+
+# ╔═╡ 981414f5-fb8d-47b3-a159-e80ec743d943
+md"""
+!!! note
+	Due to rust's ownership rules, this will fail
+
+	```rust
+	let user1 = build_user(String::from("Alice"), 30);
+	
+	let user2 = User {age:21, ..user1};
+	
+	dbg!(user1.active, user1.username, user1.age);
+	```
+
+	because the String data "Alice" is moved `user1` to `user2`, making `user1` invalid now. The previous case:
+
+	```rust
+	let user2 = User {username: String::from("Bob"), ..user1};
+	```
+
+	works because `age` is a Stack-Only data type (`u32` in this case), which allows copying via the Copy trait
+"""
+
+# ╔═╡ 382c7889-923b-4175-b2ae-c1124b3bea9d
+md"""
+We can also control the display options for structs, along with some other handy debug options:
+
+```rust
+// Implements the Debug trait so that the #? print option will work
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let scale = 2;
+    let rect1 = Rectangle{
+        width: dbg!(15*scale), // Can sneak this in here to see what's going on
+        height: 50,
+    };
+
+    println!("{rect1:#?}");
+    println!("Area: {}", area(rect1));
+}
+
+fn area(r: Rectangle) -> u32 {
+    r.width * r.height
+}
+```
+
+```raw
+[src/main.rs:10] 15 * scale = 30
+Rectangle {
+    width: 30,
+    height: 50,
+}
+Area: 1500
+```
 """
 
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
@@ -660,8 +751,11 @@ version = "17.4.0+0"
 # ╟─25a6e5fc-dc23-4450-96d9-4ad79744571c
 # ╟─e10b33b9-b38d-427f-9c75-20441e52f7a6
 # ╟─837655d8-4949-44eb-8a7b-6e2ae26c4f8f
-# ╠═95735f94-1c75-461c-a114-bd4cafea64d9
+# ╟─95735f94-1c75-461c-a114-bd4cafea64d9
 # ╟─853c4850-9f75-408c-9f1b-d98a84ff444e
+# ╟─95d4627f-cd12-4694-860a-9ad26b5bf1c7
+# ╟─981414f5-fb8d-47b3-a159-e80ec743d943
+# ╟─382c7889-923b-4175-b2ae-c1124b3bea9d
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
