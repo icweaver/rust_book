@@ -269,7 +269,7 @@ md"""
 
 # ╔═╡ 95735f94-1c75-461c-a114-bd4cafea64d9
 md"""
-### Slices with Daniel
+### Slices with Daniel and Ian
 
 This is a type of reference to strings that lets us take subsets of it. These subsets are of type `&str`
 
