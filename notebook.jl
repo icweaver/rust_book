@@ -410,6 +410,56 @@ Area: 1500
 ```
 """
 
+# ╔═╡ 0bd37838-7d73-4d06-ba21-a06ebe5755df
+md"""
+Not sure how I feel about this yet, but we could also make this OOP:
+
+```rust
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+
+	fn can_hold(&self, other: &Rectangle) -> bool {
+    	self.width > other.width && self.height > other.height
+    }
+
+}
+
+println!("Area: {}", rect1.area());
+
+let rect2 = Rectangle {width: 1, height: 2};
+println!("Can hold: {}", rect1.can_hold(&rect2));
+```
+"""
+
+# ╔═╡ 462b9adf-f9fb-4be3-b89d-8ec789ce4cce
+md"""
+These are known as associated functions, and more specifically as *methods* because they accept an instance of its associated type as its first argument. Associated functions that do not are not methods, but can still be used as constructors
+
+```rust
+impl Rectangle {
+	...
+
+	fn square(size: u32) -> Self {
+		Self {
+			width: size,
+			height: size,
+		}
+	}
+}
+
+let sq = Rectangle::square(3);
+dbg!(sq);
+```
+"""
+
+# ╔═╡ 5cd0d4fd-0563-4fc0-b758-d0156a1d331f
+md"""
+!!! note
+	The `::` syntax namespaces the `square` function to the `Rectangle` type. We have seen this before with `String::from("hello world")`
+"""
+
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
 @htl "<hr>"
 
@@ -756,6 +806,9 @@ version = "17.4.0+0"
 # ╟─95d4627f-cd12-4694-860a-9ad26b5bf1c7
 # ╟─981414f5-fb8d-47b3-a159-e80ec743d943
 # ╟─382c7889-923b-4175-b2ae-c1124b3bea9d
+# ╟─0bd37838-7d73-4d06-ba21-a06ebe5755df
+# ╟─462b9adf-f9fb-4be3-b89d-8ec789ce4cce
+# ╟─5cd0d4fd-0563-4fc0-b758-d0156a1d331f
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
