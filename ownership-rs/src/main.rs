@@ -19,13 +19,16 @@ fn main() {
     //let r2 = &mut s;
     //dbg!(r2);
 
-    let mut sentence = String::from("Hello there");
+    let sentence = String::from("Hello there");
     let word = first_word(&sentence);
-    //sentence.clear();
+    dbg!(word);
+
+    let sentence = "Yo dude";
+    let word = first_word(&sentence);
     dbg!(word);
 }
 
-fn first_word(s: &String) -> &str {
+fn first_word(s: &str) -> &str {
     let bytes = s.as_bytes();
 
     for (i, &item) in bytes.iter().enumerate() {

@@ -305,6 +305,20 @@ dbg!(word); // Fails
 Since `word` is a reference to a portion of `sentence`, any changes to `sentence`, like `sentence.clear();` would make `word` invalid. To keep data from changing out from under us without us realizing, the compiler will throw an error instead
 """
 
+# ╔═╡ 853c4850-9f75-408c-9f1b-d98a84ff444e
+md"""
+!!! note
+	To make our `first_word` function more general, we could have it accept `&str`
+
+	```rust
+	fn first_word(s: &str) -> &str {
+		...
+	}
+	```
+
+	Now it can accept things like `"Hello world"`, `"Hello world"[..3]`, etc. in addition to `String::from("Hello world")`
+"""
+
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
 @htl "<hr>"
 
@@ -647,6 +661,7 @@ version = "17.4.0+0"
 # ╟─e10b33b9-b38d-427f-9c75-20441e52f7a6
 # ╟─837655d8-4949-44eb-8a7b-6e2ae26c4f8f
 # ╟─95735f94-1c75-461c-a114-bd4cafea64d9
+# ╟─853c4850-9f75-408c-9f1b-d98a84ff444e
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
