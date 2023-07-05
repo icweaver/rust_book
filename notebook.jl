@@ -190,7 +190,7 @@ Now what if we want to pass a value to a function, but not let the function take
 
 # ╔═╡ 2464b0b3-add4-4e0e-bb61-7c4868655bb3
 md"""
-### Borrowing
+### Borrowing and referenes
 By example, let's start with a simple function that takes ownership:
 
 ```rust
@@ -265,6 +265,44 @@ md"""
     let r2 = &mut s;
 	// Succeeds
 	```
+"""
+
+# ╔═╡ 95735f94-1c75-461c-a114-bd4cafea64d9
+md"""
+### Slices
+
+This is a type of reference to strings that lets us take subsets of it. These subsets are of type `&str`
+
+```rust
+fn main {
+	let mut sentence = String::from("Hello there");
+    let word = first_word(&sentence);
+    dbg!(word); // Hello
+}
+
+fn first_word(s: &String) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+
+    &s[..] // Return the string if only one word
+}
+```
+
+Thanks to rust's borrowing and ownership rules, logical errors like below are easily identified at compile time
+
+```rust
+let mut sentence = String::from("Hello there");
+let word = first_word(&sentence);
+sentence.clear();
+dbg!(word); // Fails
+```
+
+Since `word` is a reference to a portion of `sentence`, any changes to `sentence`, like `sentence.clear();` would make `word` invalid. To keep data from changing out from under us without us realizing, the compiler will throw an error instead
 """
 
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
@@ -608,6 +646,7 @@ version = "17.4.0+0"
 # ╟─25a6e5fc-dc23-4450-96d9-4ad79744571c
 # ╟─e10b33b9-b38d-427f-9c75-20441e52f7a6
 # ╟─837655d8-4949-44eb-8a7b-6e2ae26c4f8f
+# ╟─95735f94-1c75-461c-a114-bd4cafea64d9
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
