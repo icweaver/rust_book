@@ -460,6 +460,59 @@ md"""
 	The `::` syntax namespaces the `square` function to the `Rectangle` type. We have seen this before with `String::from("hello world")`
 """
 
+# ╔═╡ 33f390c3-d790-4cc7-bb6c-a54dc71cf131
+md"""
+## Enums
+
+These are apparently a pretty big deal. Still wrapping my head aroud why they are so handy. Here's an example of them being used:
+
+```rust
+fn main() {
+    let m = Message::Move {x: 10, y:20 };
+    m.call(); // I'm being called: Move { x: 10, y: 20 }
+}
+
+#[derive(Debug)]
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+impl Message {
+    fn call(&self) {
+        println!("I'm being called: {self:?}");
+    }
+}
+```
+"""
+
+# ╔═╡ 822a608b-3f27-4296-baeb-30fcf5d88657
+md"""
+I guess the appeal is that instead of having separate structs for `Quite`, `Move`, etc. that are all of different types, they are now all packaged under the `Message` enum type. This seems similar to subtyping in Julia:
+"""
+
+# ╔═╡ f24c7633-632b-4cf9-b365-6bca88ae9e1d
+abstract type Message end
+
+# ╔═╡ ab2c7b7e-cd71-40af-8123-38bbd068354a
+struct Move <: Message
+	x
+	y
+end
+
+# ╔═╡ 09775304-1e2c-42ed-a5f8-e22a442bd73b
+function call(m::T) where {T <: Message}
+	@info "I'm being called: $(m)"
+end
+
+# ╔═╡ c1ce979e-dd66-47e0-b2c4-1150caade59e
+m = Move(10, 20)
+
+# ╔═╡ 708ec45f-c599-4f20-b178-1e1bff9449a6
+call(m)
+
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
 @htl "<hr>"
 
@@ -523,7 +576,7 @@ PlutoUI = "~0.7.51"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.9.1"
+julia_version = "1.9.2"
 manifest_format = "2.0"
 project_hash = "11e58608bab65beeb6c78bd55bbc9fd3623da2fd"
 
@@ -552,7 +605,7 @@ version = "0.11.4"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "1.0.2+0"
+version = "1.0.5+0"
 
 [[deps.Dates]]
 deps = ["Printf"]
@@ -668,7 +721,7 @@ version = "2.7.1"
 [[deps.Pkg]]
 deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
-version = "1.9.0"
+version = "1.9.2"
 
 [[deps.PlutoUI]]
 deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "FixedPointNumbers", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "MIMEs", "Markdown", "Random", "Reexport", "URIs", "UUIDs"]
@@ -809,6 +862,13 @@ version = "17.4.0+0"
 # ╟─0bd37838-7d73-4d06-ba21-a06ebe5755df
 # ╟─462b9adf-f9fb-4be3-b89d-8ec789ce4cce
 # ╟─5cd0d4fd-0563-4fc0-b758-d0156a1d331f
+# ╟─33f390c3-d790-4cc7-bb6c-a54dc71cf131
+# ╟─822a608b-3f27-4296-baeb-30fcf5d88657
+# ╠═f24c7633-632b-4cf9-b365-6bca88ae9e1d
+# ╠═ab2c7b7e-cd71-40af-8123-38bbd068354a
+# ╠═09775304-1e2c-42ed-a5f8-e22a442bd73b
+# ╠═c1ce979e-dd66-47e0-b2c4-1150caade59e
+# ╠═708ec45f-c599-4f20-b178-1e1bff9449a6
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
