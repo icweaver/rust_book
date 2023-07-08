@@ -605,7 +605,7 @@ impl Point<f32> {
 
 # ╔═╡ 39c3a5b1-1684-46aa-bb52-9b2dd4960e5e
 md"""
-This will make the `.x()` method only available to `Point<f32>`s now, instead of also `Point<i32>`s, for example
+This will make the `.x()` method only available to `Point<f32>`s now, instead of also `Point<i32>`s, for example. Thiw would be handy for a distance function between two integer points, which would be a float.
 """
 
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
