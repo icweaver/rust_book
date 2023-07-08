@@ -547,7 +547,9 @@ fn main() {
 """
 
 # ╔═╡ ecdcc4d7-2b33-49cc-a67c-92debd9f2b8d
-
+md"""
+Since comparison operations like `>` are only valid for specific types (e.g., Ints, Floats, Chars), we restrict the type signature of `largest` to only accept types that have this desired behavior defined. This is know as a *trait*, and in this case we are using `PartialOrd` from the `cmp` module of the `std` library 
+"""
 
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
 @htl "<hr>"
@@ -906,7 +908,7 @@ version = "17.4.0+0"
 # ╠═c1ce979e-dd66-47e0-b2c4-1150caade59e
 # ╠═708ec45f-c599-4f20-b178-1e1bff9449a6
 # ╟─4c9f39ce-09a7-4940-aa56-ff81bb483fa7
-# ╠═ecdcc4d7-2b33-49cc-a67c-92debd9f2b8d
+# ╟─ecdcc4d7-2b33-49cc-a67c-92debd9f2b8d
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
