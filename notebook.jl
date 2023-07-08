@@ -513,11 +513,16 @@ m = Move(10, 20)
 # ╔═╡ 708ec45f-c599-4f20-b178-1e1bff9449a6
 call(m)
 
-# ╔═╡ 4c9f39ce-09a7-4940-aa56-ff81bb483fa7
+# ╔═╡ f030144b-a22c-4345-9839-092a0efaefbd
 md"""
 ## Generics
+Why write lot code when few do trick
+"""
 
-We can call generic functions on different types by doing the following:
+# ╔═╡ 5fc412df-1e3e-4839-a4c1-93ca4ccb5c33
+md"""
+### Functions
+We can call generic functions on different types like this:
 
 ```rust
 use std::cmp::PartialOrd;
@@ -549,6 +554,58 @@ fn main() {
 # ╔═╡ ecdcc4d7-2b33-49cc-a67c-92debd9f2b8d
 md"""
 Since comparison operations like `>` are only valid for specific types (e.g., Ints, Floats, Chars), we restrict the type signature of `largest` to only accept types that have this desired behavior defined. This is know as a *trait*, and in this case we are using `PartialOrd` from the `cmp` module of the `std` library 
+"""
+
+# ╔═╡ 8ce64016-a44d-4a9c-9da3-8043d40256ec
+md"""
+### Structs
+
+Syntax very similar to Julia's
+
+```rust
+struct Point<T> {
+    x: T,
+    y: T,
+}
+```
+"""
+
+# ╔═╡ 2d591224-c313-4da1-aac2-f0506f5c23bd
+md"""
+### Enums
+
+Same for enums, see `Option` and `Result`
+"""
+
+# ╔═╡ 0646c4df-2a47-48e5-8ddc-a955f4e09982
+md"""
+### Methods
+
+Very similar setup for these with one small difference:
+
+```rust
+impl<T> Point<T> {
+    fn x(&self) -> &T {
+        &self.x
+    }
+}
+```
+
+A generic type declaration is required for `impl`. If concrete, it can be dropped
+
+```rust
+impl Point<f32> {
+    fn x(&self) -> &f32 {
+        &self.x
+    }
+}
+
+```
+"""
+
+# ╔═╡ 39c3a5b1-1684-46aa-bb52-9b2dd4960e5e
+md"""
+This will make the `.x()` method only available to `Point<f32>`s now, instead of also `Point<i32>`s, for example
 """
 
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
@@ -907,8 +964,13 @@ version = "17.4.0+0"
 # ╠═09775304-1e2c-42ed-a5f8-e22a442bd73b
 # ╠═c1ce979e-dd66-47e0-b2c4-1150caade59e
 # ╠═708ec45f-c599-4f20-b178-1e1bff9449a6
-# ╟─4c9f39ce-09a7-4940-aa56-ff81bb483fa7
+# ╟─f030144b-a22c-4345-9839-092a0efaefbd
+# ╟─5fc412df-1e3e-4839-a4c1-93ca4ccb5c33
 # ╟─ecdcc4d7-2b33-49cc-a67c-92debd9f2b8d
+# ╟─8ce64016-a44d-4a9c-9da3-8043d40256ec
+# ╟─2d591224-c313-4da1-aac2-f0506f5c23bd
+# ╟─0646c4df-2a47-48e5-8ddc-a955f4e09982
+# ╟─39c3a5b1-1684-46aa-bb52-9b2dd4960e5e
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
