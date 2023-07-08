@@ -605,11 +605,44 @@ impl Point<f32> {
 
 # ╔═╡ 39c3a5b1-1684-46aa-bb52-9b2dd4960e5e
 md"""
-This will make the `.x()` method only available to `Point<f32>`s now, instead of also `Point<i32>`s, for example. Thiw would be handy for a distance function between two integer points, which would be a float.
+This will make the `.x()` method only available to `Point<f32>`s now, instead of also `Point<i32>`s, for example. Thiw would be handy for a distance function between two integer points, which would be a float
 """
 
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
 @htl "<hr>"
+
+# ╔═╡ d1c333f2-ba2e-4569-b431-aa89582c4c08
+md"""
+Here's another similar example:
+
+```rust
+#[derive(Debug)]
+struct Point<X1, Y1> {
+    _x: X1,
+    _y: Y1,
+}
+
+impl<X1, Y1> Point<X1, Y1> {
+    fn mixup<X2, Y2> (self, other: Point<X2, Y2>) -> Point<X1, Y2> {
+        Point {
+            _x: self._x,
+            _y: other._y,
+        }
+    }
+}
+
+fn main() {
+    let p1 = Point {_x: 1, _y: 2 };
+    let p2 = Point {_x: "one", _y:'2' };
+    print!("{:?}", p1.mixup(p2)); // Point { _x: 1, _y: '2' }
+}
+```
+"""
+
+# ╔═╡ a2cbc55b-4c2b-4d59-939d-dbd4ec6011e9
+md"""
+Note here that the generic type declartion is required on `mixup` to bring it into scope
+"""
 
 # ╔═╡ d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # https://github.com/JuliaPluto/PlutoUI.jl/issues/253
@@ -972,6 +1005,8 @@ version = "17.4.0+0"
 # ╟─0646c4df-2a47-48e5-8ddc-a955f4e09982
 # ╟─39c3a5b1-1684-46aa-bb52-9b2dd4960e5e
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
+# ╟─d1c333f2-ba2e-4569-b431-aa89582c4c08
+# ╟─a2cbc55b-4c2b-4d59-939d-dbd4ec6011e9
 # ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
 # ╠═13007fd8-16af-11ee-262b-1d147de47c9d
