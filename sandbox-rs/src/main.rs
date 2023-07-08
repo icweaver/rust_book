@@ -1,15 +1,7 @@
 fn main() {
-    #[derive(Debug)]
-    struct Vec2 {
-        x: f64,
-        _y: f64
+    let mut v = vec![6, 7, 8];
+
+    while let Some(x) = v.pop().flatten() {
+        dbg!(x);
     }
-
-    let v = Vec2 {x: 3.0, _y:6.0};
-
-    let Vec2 {x, ..} = v;
-
-    dbg!(x);
-
-    dbg!(v);
 }

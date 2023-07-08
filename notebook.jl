@@ -513,6 +513,42 @@ m = Move(10, 20)
 # ╔═╡ 708ec45f-c599-4f20-b178-1e1bff9449a6
 call(m)
 
+# ╔═╡ 4c9f39ce-09a7-4940-aa56-ff81bb483fa7
+md"""
+## Generics
+
+We can call generic functions on different types by doing the following:
+
+```rust
+use std::cmp::PartialOrd;
+
+fn largest<T: PartialOrd>(list: &[T]) -> &T {
+    let mut largest = &list[0];
+
+    for item in list {
+        if item > largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+    let result = largest(&number_list);
+    println!("The largest number is {}", result);
+
+    let char_list = vec!['s', 'u', 'p'];
+    let result = largest(&char_list);
+    println!("The largest char is {}", result);
+}
+```
+"""
+
+# ╔═╡ ecdcc4d7-2b33-49cc-a67c-92debd9f2b8d
+
+
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
 @htl "<hr>"
 
@@ -869,6 +905,8 @@ version = "17.4.0+0"
 # ╠═09775304-1e2c-42ed-a5f8-e22a442bd73b
 # ╠═c1ce979e-dd66-47e0-b2c4-1150caade59e
 # ╠═708ec45f-c599-4f20-b178-1e1bff9449a6
+# ╟─4c9f39ce-09a7-4940-aa56-ff81bb483fa7
+# ╠═ecdcc4d7-2b33-49cc-a67c-92debd9f2b8d
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
