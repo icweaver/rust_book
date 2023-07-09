@@ -612,11 +612,21 @@ md"""
 Note here that the generic type declartion is required on `mixup` to bring it into scope
 """
 
+# ╔═╡ 7754b884-4d85-4bb5-b64f-5d122f8fa53a
+md"""
+!!! warning
+	I should study the module system in Rust more closely at some point
+"""
+
 # ╔═╡ 7bce3205-dbe3-4317-9f4f-b16fec59f864
 md"""
 So this looks very similay to defining methods like we did in [Associated functions](#structs_associatedfunctions), only now instead of spelling it like
 
 ```rust
+// [main.rs]
+use generics_rs::{NewsArticle, Tweet};
+
+// [lib.rs]
 impl NewsArticle {
     pub fn summarize(&self) -> String {
         format!("{}, by {} ({})", self.headline, self.author, self.location)
@@ -627,6 +637,10 @@ impl NewsArticle {
 it's like
 
 ```rust
+// [main.rs]
+use generics_rs::{Summary, NewsArticle, Tweet};
+
+// [lib.rs]
 pub trait Summary {
     fn summarize(&self) -> String;
 }
@@ -637,6 +651,11 @@ impl Summary for NewsArticle {
     }
 }
 ```
+"""
+
+# ╔═╡ f70a331b-fbd3-4f17-8f33-13cc96b1dd04
+md"""
+Why this extra layer of abstraction/complexity with `trait Summary`?
 """
 
 # ╔═╡ d06e45b1-be6b-44a9-b87d-9987b5dd20be
@@ -1106,7 +1125,9 @@ version = "17.4.0+0"
 # ╟─d1c333f2-ba2e-4569-b431-aa89582c4c08
 # ╟─a2cbc55b-4c2b-4d59-939d-dbd4ec6011e9
 # ╟─ec14fbd2-5679-4ad7-b33a-ddacb456955b
+# ╟─7754b884-4d85-4bb5-b64f-5d122f8fa53a
 # ╟─7bce3205-dbe3-4317-9f4f-b16fec59f864
+# ╠═f70a331b-fbd3-4f17-8f33-13cc96b1dd04
 # ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
 # ╠═13007fd8-16af-11ee-262b-1d147de47c9d
