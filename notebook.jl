@@ -519,41 +519,9 @@ md"""
 Why write lot code when few do trick
 """
 
-# ╔═╡ 5fc412df-1e3e-4839-a4c1-93ca4ccb5c33
-md"""
-### Functions
-We can call generic functions on different types like this:
-
-```rust
-use std::cmp::PartialOrd;
-
-fn largest<T: PartialOrd>(list: &[T]) -> &T {
-    let mut largest = &list[0];
-
-    for item in list {
-        if item > largest {
-            largest = item;
-        }
-    }
-
-    largest
-}
-
-fn main() {
-    let number_list = vec![34, 50, 25, 100, 65];
-    let result = largest(&number_list);
-    println!("The largest number is {}", result);
-
-    let char_list = vec!['s', 'u', 'p'];
-    let result = largest(&char_list);
-    println!("The largest char is {}", result);
-}
-```
-"""
-
 # ╔═╡ ecdcc4d7-2b33-49cc-a67c-92debd9f2b8d
 md"""
-Since comparison operations like `>` are only valid for specific types (e.g., Ints, Floats, Chars), we restrict the type signature of `largest` to only accept types that have this desired behavior defined. This is know as a *trait*, and in this case we are using `PartialOrd` from the `cmp` module of the `std` library 
+Since comparison operations like `>` are only valid for specific types (e.g., Ints, Floats, Chars), we restrict the type signature of `largest` to only accept types that have this desired behavior defined. This is know as a *trait*, and in this case we are using `PartialOrd` from the `cmp` module of the `std` library. More on this in [Traits](#generics_traits)
 """
 
 # ╔═╡ 8ce64016-a44d-4a9c-9da3-8043d40256ec
@@ -644,6 +612,33 @@ md"""
 Note here that the generic type declartion is required on `mixup` to bring it into scope
 """
 
+# ╔═╡ 7bce3205-dbe3-4317-9f4f-b16fec59f864
+md"""
+So this looks very similay to defining methods like we did in [Associated functions](#structs_associatedfunctions), only now instead of spelling it like
+
+```rust
+impl NewsArticle {
+    pub fn summarize(&self) -> String {
+        format!("{}, by {} ({})", self.headline, self.author, self.location)
+    }
+}
+```
+
+it's like
+
+```rust
+pub trait Summary {
+    fn summarize(&self) -> String;
+}
+
+impl Summary for NewsArticle {
+    fn summarize(&self) -> String {
+        format!("{}, by {} ({})", self.headline, self.author, self.location)
+    }
+}
+```
+"""
+
 # ╔═╡ d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # https://github.com/JuliaPluto/PlutoUI.jl/issues/253
 macro anchor(text)
@@ -684,6 +679,108 @@ $(@anchor "trivial-copy")
 !!! warning "*Aside"
 	
 	They just call this a "trivial" copy, so not sure if these are both distinct locations in the stack, or just the original data is. May just be an implementation detail.
+"""
+
+# ╔═╡ 9f44efab-f710-4f3d-82a3-355f397a2453
+md"""
+## Associated functions $(@anchor("structs_associatedfunctions"))
+"""
+
+# ╔═╡ 5fc412df-1e3e-4839-a4c1-93ca4ccb5c33
+md"""
+### Functions $(@anchor("generics_functions"))
+We can call generic functions on different types like this:
+
+```rust
+use std::cmp::PartialOrd;
+
+fn largest<T: PartialOrd>(list: &[T]) -> &T {
+    let mut largest = &list[0];
+
+    for item in list {
+        if item > largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+    let result = largest(&number_list);
+    println!("The largest number is {}", result);
+
+    let char_list = vec!['s', 'u', 'p'];
+    let result = largest(&char_list);
+    println!("The largest char is {}", result);
+}
+```
+"""
+
+# ╔═╡ ec14fbd2-5679-4ad7-b33a-ddacb456955b
+md"""
+### Traits $(@anchor("generics_traits"))
+
+Now let's get back to talking about that common defined behavior brought up at the end of [Functions](#generics_functions)
+
+`Filename: src/main.rs`
+```rust
+use generics_rs::{Summary, NewsArticle, Tweet};
+
+fn main() {
+    let article = NewsArticle {
+        headline: String::from("Aliens say 'Hi'"),
+        location: String::from("USA"),
+        author: String::from("Jane Earthington"),
+        content: String::from("Apprently they forgot something here"),
+    };
+
+    println!("1 new article: {}", article.summarize());
+
+    let tweet = Tweet {
+        username: String::from("@nasa"),
+        content: String::from("aliens bro"),
+        reply: false,
+        retweet: false,
+    };
+
+    println!("1 new tweet: {}", tweet.summarize());
+}
+```
+
+`Filename: src/lib.rs`
+```rust
+pub trait Summary {
+    fn summarize(&self) -> String;
+}
+
+pub struct NewsArticle {
+    pub headline: String,
+    pub location: String,
+    pub author: String,
+    pub content: String,
+}
+
+impl Summary for NewsArticle {
+    fn summarize(&self) -> String {
+        format!("{}, by {} ({})", self.headline, self.author, self.location)
+    }
+}
+
+pub struct Tweet {
+    pub username: String,
+    pub content: String,
+    pub reply: bool,
+    pub retweet: bool,
+}
+
+impl Summary for Tweet {
+    fn summarize(&self) -> String {
+        format!("{}: {}", self.username, self.content)
+    }
+}
+```
 """
 
 # ╔═╡ 13723396-21da-43d1-b27c-ea8cbefc6974
@@ -987,6 +1084,7 @@ version = "17.4.0+0"
 # ╟─95d4627f-cd12-4694-860a-9ad26b5bf1c7
 # ╟─981414f5-fb8d-47b3-a159-e80ec743d943
 # ╟─382c7889-923b-4175-b2ae-c1124b3bea9d
+# ╟─9f44efab-f710-4f3d-82a3-355f397a2453
 # ╟─0bd37838-7d73-4d06-ba21-a06ebe5755df
 # ╟─462b9adf-f9fb-4be3-b89d-8ec789ce4cce
 # ╟─5cd0d4fd-0563-4fc0-b758-d0156a1d331f
@@ -1007,6 +1105,8 @@ version = "17.4.0+0"
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─d1c333f2-ba2e-4569-b431-aa89582c4c08
 # ╟─a2cbc55b-4c2b-4d59-939d-dbd4ec6011e9
+# ╟─ec14fbd2-5679-4ad7-b33a-ddacb456955b
+# ╟─7bce3205-dbe3-4317-9f4f-b16fec59f864
 # ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
 # ╠═13007fd8-16af-11ee-262b-1d147de47c9d
