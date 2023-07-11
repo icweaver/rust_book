@@ -8,6 +8,7 @@ using InteractiveUtils
 begin
 	using PlutoUI
 	using HypertextLiteral: @htl
+	using MarkdownLiteral: @mdx
 end
 
 # ╔═╡ ee802ab9-90b5-449b-9df1-9c4dca647ff4
@@ -654,8 +655,31 @@ impl Summary for NewsArticle {
 """
 
 # ╔═╡ f70a331b-fbd3-4f17-8f33-13cc96b1dd04
-md"""
+@mdx """
 Why this extra layer of abstraction/complexity with `trait Summary`?
+
+- Generic type param constraints:
+	```rust
+	fn largest<T: Summary>(...)
+	```
+
+	(Note: we've seen an example of this already at the beginning of [Functions](#generics_functions))
+
+- Fallback implementations:
+  ```rust
+  // [main.rs]
+  use generics_rs::{Summary, NewsArticle, Tweet, BlogPost};
+
+  let blog = BlogPost{};
+  println!("1 new blog: {}", blog.summarize());
+
+  // [lib.rs]
+  pub trait Summary {
+      fn summarize(&self) -> String {
+          String::from("(Read more...)")
+      }
+  }
+  ```
 """
 
 # ╔═╡ d06e45b1-be6b-44a9-b87d-9987b5dd20be
@@ -809,10 +833,12 @@ TableOfContents(; depth=4)
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
+MarkdownLiteral = "736d6165-7244-6769-4267-6b50796e6954"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
 HypertextLiteral = "~0.9.4"
+MarkdownLiteral = "~0.1.1"
 PlutoUI = "~0.7.51"
 """
 
@@ -822,7 +848,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.2"
 manifest_format = "2.0"
-project_hash = "11e58608bab65beeb6c78bd55bbc9fd3623da2fd"
+project_hash = "6a5f9b465def030c3edad3afdb0c318be3538081"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -846,10 +872,21 @@ git-tree-sha1 = "eb7f0f8307f71fac7c606984ea5fb2817275d6e4"
 uuid = "3da002f7-5984-5a60-b8a6-cbb66c0b333f"
 version = "0.11.4"
 
+[[deps.CommonMark]]
+deps = ["Crayons", "JSON", "PrecompileTools", "URIs"]
+git-tree-sha1 = "532c4185d3c9037c0237546d817858b23cf9e071"
+uuid = "a80b9123-70ca-4bc0-993e-6e3bcb318db6"
+version = "0.8.12"
+
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
 version = "1.0.5+0"
+
+[[deps.Crayons]]
+git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
+uuid = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
+version = "4.1.1"
 
 [[deps.Dates]]
 deps = ["Printf"]
@@ -934,6 +971,12 @@ version = "0.1.4"
 [[deps.Markdown]]
 deps = ["Base64"]
 uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
+
+[[deps.MarkdownLiteral]]
+deps = ["CommonMark", "HypertextLiteral"]
+git-tree-sha1 = "0d3fa2dd374934b62ee16a4721fe68c418b92899"
+uuid = "736d6165-7244-6769-4267-6b50796e6954"
+version = "0.1.1"
 
 [[deps.MbedTLS_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -1127,8 +1170,8 @@ version = "17.4.0+0"
 # ╟─ec14fbd2-5679-4ad7-b33a-ddacb456955b
 # ╟─7754b884-4d85-4bb5-b64f-5d122f8fa53a
 # ╟─7bce3205-dbe3-4317-9f4f-b16fec59f864
-# ╠═f70a331b-fbd3-4f17-8f33-13cc96b1dd04
-# ╟─d06e45b1-be6b-44a9-b87d-9987b5dd20be
+# ╟─f70a331b-fbd3-4f17-8f33-13cc96b1dd04
+# ╠═d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
 # ╠═13007fd8-16af-11ee-262b-1d147de47c9d
 # ╟─00000000-0000-0000-0000-000000000001
