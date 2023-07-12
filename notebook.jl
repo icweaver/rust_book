@@ -142,12 +142,6 @@ let x = if num > val {
 Great for ensuring type stability!
 """
 
-# ╔═╡ b9ddf7fd-e23e-4592-9476-bb42145a7914
-@mdx """
-## Ownership
-This is Rust's unique take on memory management. The gist AFAICT is that it avoids the need to rely on a slow garbage collector at runtime or the more error-prone manual memory freeing route, by automating this process for us. It does this by freeing the memory as soon as the variable using the memory goes out of scope.
-"""
-
 # ╔═╡ de42b816-0c66-4e77-b128-f06285c3d0a6
 md"""
 ### Overview
@@ -714,6 +708,12 @@ fn f3() -> u32 {
     5 // No semicolon here because we want to return a value
 }
 ```
+"""
+
+# ╔═╡ b9ddf7fd-e23e-4592-9476-bb42145a7914
+md"""
+## Ownership $(@anchor "ownership")
+This is Rust's unique take on memory management. The gist AFAICT is that it avoids the need to rely on a slow garbage collector at runtime or the more error-prone manual memory freeing route, by automating this process for us. It does this by freeing the memory as soon as the variable using the memory goes out of scope.
 """
 
 # ╔═╡ 6219b8f5-df7a-42bc-bc13-d8345b25d12e
