@@ -829,6 +829,23 @@ impl Summary for Tweet {
 # ╔═╡ 13723396-21da-43d1-b27c-ea8cbefc6974
 TableOfContents(; depth=4)
 
+# ╔═╡ 69e5b6d4-a182-40df-ab30-f1b9d00a562f
+html"""
+<script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if(window.location.hash) {
+                    const scrollToId = window.location.hash.slice(1);
+                    const scrollToEl = document.getElementById(scrollToId);
+                    if(scrollToEl) {
+                        scrollToEl.scrollIntoView({block: 'start'});
+                    }
+                }
+            }, 100);
+        });
+</script>
+"""
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -1174,5 +1191,6 @@ version = "17.4.0+0"
 # ╠═d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
 # ╠═13007fd8-16af-11ee-262b-1d147de47c9d
+# ╟─69e5b6d4-a182-40df-ab30-f1b9d00a562f
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
