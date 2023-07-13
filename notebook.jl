@@ -697,6 +697,14 @@ pub fn notify(item: &impl Summary) {
     println!("Breaking news! {}", item.summarize());
 }
 ```
+
+!!! note
+	This is just sugar for:
+	```rust
+	pub fn notify<T: Summary>(item: &T) {
+		...
+	}
+	```
 """
 
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
