@@ -11,7 +11,7 @@ fn main() {
     println!("1 new article: {}", article.summarize());
 
     let tweet = Tweet {
-        username: String::from("@nasa"),
+        username: String::from("nasa"),
         content: String::from("aliens bro"),
         reply: false,
         retweet: false,
