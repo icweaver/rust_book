@@ -686,10 +686,12 @@ md"""
 We can define functions that will only work on instances of our types that implement our traits, (e.g., `article`, `tweet`, and `blog`)
 """
 
-# ╔═╡ 606e6390-eac9-4cbd-90c7-332f3c7266f9
+# ╔═╡ d3abd1c2-5927-43ad-81b6-b4373a8f86db
 md"""
 ```rust
 // [main.rs]
+use_generics_rs::{.., notify};
+
 notify(&article); //Breaking news! (Read more from Jane Earthington...)
 
 // [lib.rs]
@@ -697,13 +699,25 @@ pub fn notify(item: &impl Summary) {
     println!("Breaking news! {}", item.summarize());
 }
 ```
+"""
 
+# ╔═╡ 0ed74f43-4433-4819-8f8a-d3115f064fa7
+md"""
 !!! note
 	This is just sugar for:
 	```rust
 	pub fn notify<T: Summary>(item: &T) {
-		...
-	}
+	```
+
+	which is useful for when we want to restrict multiple parameters to the same concrete type
+
+	```rust
+	// [lib.rs]
+	pub fn notify<T: Summary>(item1: &T, item2: &T) {
+
+	// [main.rs]
+	notify(&article, &tweet); // Succeed
+	notify(&article, &article); // Fails
 	```
 """
 
@@ -1199,7 +1213,8 @@ version = "17.4.0+0"
 # ╟─7bce3205-dbe3-4317-9f4f-b16fec59f864
 # ╟─f70a331b-fbd3-4f17-8f33-13cc96b1dd04
 # ╟─6a3b2d52-bd89-4d90-9bab-d5b5ef0a5dc2
-# ╟─606e6390-eac9-4cbd-90c7-332f3c7266f9
+# ╟─d3abd1c2-5927-43ad-81b6-b4373a8f86db
+# ╟─0ed74f43-4433-4819-8f8a-d3115f064fa7
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╠═d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
