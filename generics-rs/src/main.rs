@@ -1,4 +1,4 @@
-use generics_rs::{Summary, NewsArticle, Tweet, BlogPost};
+use generics_rs::{Summary, NewsArticle, Tweet, BlogPost, notify};
 
 fn main() {
     let article = NewsArticle {
@@ -21,4 +21,6 @@ fn main() {
 
     let blog = BlogPost{};
     println!("1 new blog: {}", blog.summarize());
+
+    notify(&article);
 }

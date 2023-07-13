@@ -577,9 +577,6 @@ md"""
 This will make the `.x()` method only available to `Point<f32>`s now, instead of also `Point<i32>`s, for example. Thiw would be handy for a distance function between two integer points, which would be a float
 """
 
-# ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
-@htl "<hr>"
-
 # ╔═╡ d1c333f2-ba2e-4569-b431-aa89582c4c08
 md"""
 Here's another similar example:
@@ -682,6 +679,29 @@ Why this extra layer of abstraction/complexity with `trait Summary`?
   ```
 """
 
+# ╔═╡ 6a3b2d52-bd89-4d90-9bab-d5b5ef0a5dc2
+md"""
+#### Traits as parameters
+
+We can define functions that will only work on instances of our types that implement our traits, (e.g., `article`, `tweet`, and `blog`)
+"""
+
+# ╔═╡ 606e6390-eac9-4cbd-90c7-332f3c7266f9
+md"""
+```rust
+// [main.rs]
+notify(&article); //Breaking news! (Read more from Jane Earthington...)
+
+// [lib.rs]
+pub fn notify(item: &impl Summary) {
+    println!("Breaking news! {}", item.summarize());
+}
+```
+"""
+
+# ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
+@htl "<hr>"
+
 # ╔═╡ d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # https://github.com/JuliaPluto/PlutoUI.jl/issues/253
 macro anchor(text)
@@ -782,7 +802,7 @@ fn main() {
     println!("1 new article: {}", article.summarize());
 
     let tweet = Tweet {
-        username: String::from("@nasa"),
+        username: String::from("nasa"),
         content: String::from("aliens bro"),
         reply: false,
         retweet: false,
@@ -820,7 +840,7 @@ pub struct Tweet {
 
 impl Summary for Tweet {
     fn summarize(&self) -> String {
-        format!("{}: {}", self.username, self.content)
+        format!("@{}: {}", self.username, self.content)
     }
 }
 ```
@@ -1164,13 +1184,15 @@ version = "17.4.0+0"
 # ╟─2d591224-c313-4da1-aac2-f0506f5c23bd
 # ╟─0646c4df-2a47-48e5-8ddc-a955f4e09982
 # ╟─39c3a5b1-1684-46aa-bb52-9b2dd4960e5e
-# ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─d1c333f2-ba2e-4569-b431-aa89582c4c08
 # ╟─a2cbc55b-4c2b-4d59-939d-dbd4ec6011e9
 # ╟─ec14fbd2-5679-4ad7-b33a-ddacb456955b
 # ╟─7754b884-4d85-4bb5-b64f-5d122f8fa53a
 # ╟─7bce3205-dbe3-4317-9f4f-b16fec59f864
 # ╟─f70a331b-fbd3-4f17-8f33-13cc96b1dd04
+# ╟─6a3b2d52-bd89-4d90-9bab-d5b5ef0a5dc2
+# ╟─606e6390-eac9-4cbd-90c7-332f3c7266f9
+# ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╠═d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
 # ╠═13007fd8-16af-11ee-262b-1d147de47c9d
