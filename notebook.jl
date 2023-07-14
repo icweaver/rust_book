@@ -721,6 +721,32 @@ md"""
 	```
 """
 
+# ╔═╡ 84e52973-671b-4b6b-abe7-6c0a073c8ca4
+md"""
+#### Lifetimes
+
+This is another feature unique to Rust, and intimately related to its Ownership model. The analogy is that just like types, ownership is inferred by default when possible (5.0 is an `i32`, "5.0" is an `&str`, etc.). When this breaks down, we need to explicitly state when ownership is up. Example time
+"""
+
+# ╔═╡ 47ace2c1-82f7-407c-8f27-fc940272064a
+md"""
+```rust
+let r;
+
+{
+	let x = 5;
+	r = &x;
+}
+
+println!("r: {r}"); // Error: `x` does not live long enough
+```
+"""
+
+# ╔═╡ 54db3561-8821-4ce4-8b51-f183ef3253b8
+md"""
+This fails because since ownership is automatically determined by scope, `x` no longer exists by the time we get to the `println!`. Attempting to access the memory location of the freed variable throws the above error because `r` outlived `x`. Let's see how this ideal of lifetimes applies to functions next
+"""
+
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
 @htl "<hr>"
 
@@ -1215,6 +1241,9 @@ version = "17.4.0+0"
 # ╟─6a3b2d52-bd89-4d90-9bab-d5b5ef0a5dc2
 # ╟─d3abd1c2-5927-43ad-81b6-b4373a8f86db
 # ╟─0ed74f43-4433-4819-8f8a-d3115f064fa7
+# ╟─84e52973-671b-4b6b-abe7-6c0a073c8ca4
+# ╟─47ace2c1-82f7-407c-8f27-fc940272064a
+# ╟─54db3561-8821-4ce4-8b51-f183ef3253b8
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╠═d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
