@@ -830,6 +830,36 @@ This errors with:
 Because now the lifetime of `results` is as long as `s1` now, while the inner scope tries to force it's lifetime to be only as long as `s2`s, which is invalid
 """
 
+# ╔═╡ 42de5ec9-d53c-4e62-b825-bfedfef22ed6
+md"""
+## Tests
+
+This is sooo slick in Rust. Unit tests are inluded directly in the source file its testing, and integration tests in a separate folder. We can pick and choose tests easily, even based on a partial match of the test name 🤯 
+
+Here's a sample setup:
+
+```
+├── Cargo.lock
+├── Cargo.toml
+├── src
+│   └── lib.rs
+└── tests
+    ├── common
+    │   └── mod.rs
+    └── integration_test.rs
+```
+"""
+
+# ╔═╡ da57887a-c3f0-40f4-bded-38fcc5ec4b13
+md"""
+* `lib.rs` contains unit tests at the bottom of the file
+* `mod.rs` contains common helper function shared between the integration tests
+* `integration_tests.rs` is an example of one integration test file
+
+!!! note
+	`mod.rs` is in it's own directory to avoid it being tested itself, and displaying "0 tests run" noise in the `cargo test` output
+"""
+
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
 @htl "<hr>"
 
@@ -1333,6 +1363,8 @@ version = "17.4.0+0"
 # ╟─73b970ce-5c2f-4dcc-aacb-7d23e928edcf
 # ╟─93d8d195-7254-4c67-9b64-06e228d9c7c3
 # ╟─8ca48d12-fecf-41d4-a0fa-f23a9754ab75
+# ╟─42de5ec9-d53c-4e62-b825-bfedfef22ed6
+# ╟─da57887a-c3f0-40f4-bded-38fcc5ec4b13
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╠═d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
