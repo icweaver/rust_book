@@ -8,11 +8,15 @@ fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
     }
 }
 fn main() {
-    let s1 = "abcd";
-    let s2 = "xyz";
+    let s1 = String::from("a really long sentence");
+    let result;
 
-    let result = longest(s1, s2);
-    println!("The longest string is {}", result);
+    {
+        let s2 = String::from("abc");
+        result = longest(s1.as_str(), s2.as_str());
+    }
+
+    println!("The longest string is: {result}");
 
     //let article = NewsArticle {
     //    headline: String::from("Aliens say 'Hi'"),

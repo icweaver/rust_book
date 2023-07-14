@@ -759,10 +759,10 @@ fn longest(x: &str, y: &str) -> &str {
 }
 
 fn main() {
-    let s1 = "abcd";
+	let s1 = String::from("abcd");
     let s2 = "xyz";
 
-    let result = longest(s1, s2);
+    let result = longest(s1.as_str(), s2);
     println!("The longest string is {}", result); // error[E0106]: missing lifetime specifier
 }
 ```
@@ -783,7 +783,51 @@ println!("The longest string is {}", result); // The longest string is abcd
 
 # ╔═╡ c9d020e9-a6d8-413d-afd4-099b1a1cb2a9
 md"""
-Ok, what the heck just happened? We created a generic lifetime specifier named `a` (denoted by a `'` prepended to it to differentiate it from other keywords in rust) and parameterized our function signature with it.
+Ok, what the heck just happened? We created a generic lifetime specifier named `a` (denoted by a `'` prepended to it to differentiate it from other keywords in rust) and parameterized our function signature with it. Making it the same for both the inputs and the return type tells the compiler to do the following:
+
+- Take the shorter of the lifetimes for `x` and `y`
+- Enforce that the lifetime of the returned reference should be at least as long as this
+
+That's it. Ok, seems reasonable, let's see examples of why this is all that is needed to ensure that our code is safe at compile time
+"""
+
+# ╔═╡ 73b970ce-5c2f-4dcc-aacb-7d23e928edcf
+md"""
+```rust
+let s1 = String::from("a really long sentence");
+
+{
+	let s2 = String::from("abc");
+	let result = longest(s1.as_str(), s2.as_str());
+	println!("The longest string is: {result}");
+}
+```
+"""
+
+# ╔═╡ 93d8d195-7254-4c67-9b64-06e228d9c7c3
+md"""
+This works just fine because the lifetime of `result` is indeed at least as long as the shortest lifetime of its inputs, `s2`. Now, if we slightly re-arrange things to the following:
+
+```rust
+let s1 = String::from("a really long sentence");
+let result;
+
+{
+	let s2 = String::from("abc");
+	result = longest(s1.as_str(), s2.as_str());
+}
+
+println!("The longest string is: {result}");
+```
+"""
+
+# ╔═╡ 8ca48d12-fecf-41d4-a0fa-f23a9754ab75
+md"""
+This errors with:
+	
+	`s2` does not live long enough
+
+Because now the lifetime of `results` is as long as `s1` now, while the inner scope tries to force it's lifetime to be only as long as `s2`s, which is invalid
 """
 
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
@@ -1285,7 +1329,10 @@ version = "17.4.0+0"
 # ╟─54db3561-8821-4ce4-8b51-f183ef3253b8
 # ╟─3ec4123b-c316-4e75-a036-5486ddf7c7a5
 # ╟─ad1de39b-ce22-4db5-83b3-64b8ac623ae3
-# ╠═c9d020e9-a6d8-413d-afd4-099b1a1cb2a9
+# ╟─c9d020e9-a6d8-413d-afd4-099b1a1cb2a9
+# ╟─73b970ce-5c2f-4dcc-aacb-7d23e928edcf
+# ╟─93d8d195-7254-4c67-9b64-06e228d9c7c3
+# ╟─8ca48d12-fecf-41d4-a0fa-f23a9754ab75
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╠═d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
