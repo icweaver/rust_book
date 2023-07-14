@@ -747,6 +747,45 @@ md"""
 This fails because since ownership is automatically determined by scope, `x` no longer exists by the time we get to the `println!`. Attempting to access the memory location of the freed variable throws the above error because `r` outlived `x`. Let's see how this ideal of lifetimes applies to functions next
 """
 
+# ╔═╡ 3ec4123b-c316-4e75-a036-5486ddf7c7a5
+md"""
+```rust
+fn longest(x: &str, y: &str) -> &str {
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+
+fn main() {
+    let s1 = "abcd";
+    let s2 = "xyz";
+
+    let result = longest(s1, s2);
+    println!("The longest string is {}", result); // error[E0106]: missing lifetime specifier
+}
+```
+"""
+
+# ╔═╡ ad1de39b-ce22-4db5-83b3-64b8ac623ae3
+md"""
+This fails because the compiler has no way to determine (without doing some complicated, error-prone inference) if our returned result outlives the references being passed to `longest` or not. So, we make it explicit. The following incantation breaks the curse:
+
+```rust
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+	...
+}
+
+println!("The longest string is {}", result); // The longest string is abcd
+```
+"""
+
+# ╔═╡ c9d020e9-a6d8-413d-afd4-099b1a1cb2a9
+md"""
+Ok, what the heck just happened? We created a generic lifetime specifier named `a` (denoted by a `'` prepended to it to differentiate it from other keywords in rust) and parameterized our function signature with it.
+"""
+
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
 @htl "<hr>"
 
@@ -1244,6 +1283,9 @@ version = "17.4.0+0"
 # ╟─84e52973-671b-4b6b-abe7-6c0a073c8ca4
 # ╟─47ace2c1-82f7-407c-8f27-fc940272064a
 # ╟─54db3561-8821-4ce4-8b51-f183ef3253b8
+# ╟─3ec4123b-c316-4e75-a036-5486ddf7c7a5
+# ╟─ad1de39b-ce22-4db5-83b3-64b8ac623ae3
+# ╠═c9d020e9-a6d8-413d-afd4-099b1a1cb2a9
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╠═d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
