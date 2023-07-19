@@ -991,7 +991,15 @@ fn main() {
 
 # ╔═╡ 00f40949-fe55-4b38-a333-6ec49dc89c5f
 md"""
-This will fail to compile because
+This will fail to compile because of the nature of scheduling threads. There is a chance that the spawned thread could be put into the background by our computer without running at all. If that were to happen, then there is no guarantee that the reference to `v` inside of the thread will still be valid by the time the thread starts running
+
+An example of this would be `v` being dropped once `main` finishes, and then the thread finally starting up from the background and trying to access a reference to non-existent data now! To avoid this, we use the `move` keyword to make ownership of the thread explicit, instead of the inferred borrowing that the compiler tried before
+
+```rust
+let handle = thread::spawn(move || {
+	println!("Here's a vector: {:?}", v);
+}); // Yay, all happy now
+```
 """
 
 # ╔═╡ 6c95784a-220f-49eb-807e-fcc2fa546b3d
@@ -1532,7 +1540,7 @@ version = "17.4.0+0"
 # ╟─66b3d067-59d3-4fb3-8348-56368342119f
 # ╟─be3d7980-fc9f-4c6e-b625-961562ebec4d
 # ╟─8b2de2e5-ea4d-46f0-8bf4-126107bc1544
-# ╠═00f40949-fe55-4b38-a333-6ec49dc89c5f
+# ╟─00f40949-fe55-4b38-a333-6ec49dc89c5f
 # ╠═6c95784a-220f-49eb-807e-fcc2fa546b3d
 # ╟─5b1a92be-a0f2-423a-85a5-6da652681295
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
