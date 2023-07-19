@@ -867,6 +867,11 @@ md"""
 Let's thread it up
 """
 
+# ╔═╡ 362fc37d-0c39-43db-935c-bfac9988c6b6
+md"""
+### Intro
+"""
+
 # ╔═╡ 6eb20377-6937-4148-9bd4-7a051260953d
 md"""
 Here's a quick example of it in action:
@@ -963,6 +968,35 @@ hi number 2 from the main thread!
 hi number 3 from the main thread!
 hi number 4 from the main thread!
 ```
+"""
+
+# ╔═╡ 8b2de2e5-ea4d-46f0-8bf4-126107bc1544
+md"""
+That's all good for printing stuff, but what about accessing data?
+
+```rust
+use std::thread;
+
+fn main() {
+    let v = vec![1, 2 ,3];
+
+    let handle = thread::spawn(|| {
+        println!("Here's a vector: {:?}", v);
+    });
+
+    handle.join().unwrap();
+} // Fails
+```
+"""
+
+# ╔═╡ 00f40949-fe55-4b38-a333-6ec49dc89c5f
+md"""
+This will fail to compile because
+"""
+
+# ╔═╡ 6c95784a-220f-49eb-807e-fcc2fa546b3d
+md"""
+## Message passing
 """
 
 # ╔═╡ 5b1a92be-a0f2-423a-85a5-6da652681295
@@ -1492,10 +1526,14 @@ version = "17.4.0+0"
 # ╟─42de5ec9-d53c-4e62-b825-bfedfef22ed6
 # ╟─da57887a-c3f0-40f4-bded-38fcc5ec4b13
 # ╟─72724da9-3764-4eae-9403-88c370412761
+# ╟─362fc37d-0c39-43db-935c-bfac9988c6b6
 # ╟─6eb20377-6937-4148-9bd4-7a051260953d
 # ╟─86fda189-835b-4108-ada4-9df6af489f26
 # ╟─66b3d067-59d3-4fb3-8348-56368342119f
 # ╟─be3d7980-fc9f-4c6e-b625-961562ebec4d
+# ╟─8b2de2e5-ea4d-46f0-8bf4-126107bc1544
+# ╠═00f40949-fe55-4b38-a333-6ec49dc89c5f
+# ╠═6c95784a-220f-49eb-807e-fcc2fa546b3d
 # ╟─5b1a92be-a0f2-423a-85a5-6da652681295
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─cd6ec943-2aff-49eb-a07e-1eb9060542b7
