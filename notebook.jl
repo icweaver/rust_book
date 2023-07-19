@@ -1023,6 +1023,7 @@ md"""
 For starters, here's a simple example with a single transmitter and single receiver:
 
 ```rust
+use std::sync::mpsc;
 use std::thread;
 
 fn main() {
@@ -1057,7 +1058,100 @@ println!("val is {}", val); // Fails
 
 # ╔═╡ 1ff6c143-a824-4dc9-8ccd-8d090528f664
 md"""
-Nice! This keeps us from accidentally messing with `val` and making our data inconsistent/non-existent while working with it
+Nice! This keeps us from accidentally messing with `val` and making our data inconsistent/non-existent while working with it. Here's another quick example showing how we can iterate over multiple messages sent down our channel:
+
+```rust
+use std::sync::mpsc;
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn(move || {
+        let vals = vec![
+            String::from("hi"),
+            String::from("from"),
+            String::from("the"),
+            String::from("thread"),
+        ];
+
+        for val in vals {
+            tx.send(val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+
+    for received in rx {
+        println!("Got: {}", received);
+    }
+}
+```
+"""
+
+# ╔═╡ 91fb846f-4028-4ef6-9b78-d8674ed1a146
+md"""
+It's pretty nice. Since this is called `mpsc` though, let's also use this for multiple transmitters:
+
+```rust
+use std::sync::mpsc;
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    let tx1 = tx.clone();
+
+   thread::spawn(move || {
+        let vals = vec![
+            String::from("hi"),
+            String::from("from"),
+            String::from("the"),
+            String::from("thread"),
+        ];
+
+        for val in vals {
+            tx1.send(val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+
+    thread::spawn(move || {
+        let vals = vec![
+            String::from("more"),
+            String::from("messages"),
+            String::from("for"),
+            String::from("you"),
+        ];
+
+        for val in vals {
+            tx.send(val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+
+    for received in rx {
+        println!("Got: {}", received);
+    }
+}
+```
+"""
+
+# ╔═╡ 8232a537-1eed-40d2-8a0e-333a2698ae6a
+md"""
+```
+Got: hi
+Got: more
+Got: from
+Got: messages
+Got: for
+Got: the
+Got: you
+Got: thread
+```
+
+The output is essentially chaos, especially if we play with the `Duration`s
 """
 
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
@@ -1590,10 +1684,12 @@ version = "17.4.0+0"
 # ╟─8b2de2e5-ea4d-46f0-8bf4-126107bc1544
 # ╟─00f40949-fe55-4b38-a333-6ec49dc89c5f
 # ╟─6c95784a-220f-49eb-807e-fcc2fa546b3d
-# ╠═2433208d-5acd-49bb-bf69-47af2a6a879b
+# ╟─2433208d-5acd-49bb-bf69-47af2a6a879b
 # ╟─8a44d44e-4cc0-4206-b530-9b864c5231c9
 # ╟─e93da072-7a6a-4672-b620-8965aa91a4bb
 # ╟─1ff6c143-a824-4dc9-8ccd-8d090528f664
+# ╟─91fb846f-4028-4ef6-9b78-d8674ed1a146
+# ╟─8232a537-1eed-40d2-8a0e-333a2698ae6a
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─cd6ec943-2aff-49eb-a07e-1eb9060542b7
 # ╠═d06e45b1-be6b-44a9-b87d-9987b5dd20be
