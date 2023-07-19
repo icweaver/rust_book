@@ -1,7 +1,21 @@
 fn main() {
-    let mut v = vec![6, 7, 8];
+    let s = ":) ?";
+    let x = is_yelling(s);
 
-    while let Some(x) = v.pop().flatten() {
-        dbg!(x);
-    }
+    println!("{:?}", x);
+}
+
+fn is_question(s: &str) -> bool {
+    s.chars().last().unwrap() == '?'
+}
+
+fn is_yelling(s: &str) -> bool {
+    let mut y = s.chars()
+    .filter(|c| c.is_alphabetic()).peekable();
+
+    y.all(|c| c.is_uppercase()) && y.peek().is_some()
+}
+
+fn is_silent(s: &str) -> bool {
+    s.trim().is_empty()
 }
