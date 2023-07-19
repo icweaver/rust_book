@@ -860,8 +860,124 @@ md"""
 	`mod.rs` is in it's own directory to avoid it being tested itself, and displaying "0 tests run" noise in the `cargo test` output
 """
 
+# ╔═╡ 72724da9-3764-4eae-9403-88c370412761
+md"""
+## Concurreny (and parallelism)
+
+Let's thread it up
+"""
+
+# ╔═╡ 6eb20377-6937-4148-9bd4-7a051260953d
+md"""
+Here's a quick example of it in action:
+
+```rust
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let handle = thread::spawn(|| {
+        for i in 1..10 {
+            println!("hi number {} from the spawned thread!", i);
+            thread::sleep(Duration::from_millis(1));
+        }
+    });
+
+    for i in 1..5 {
+        println!("hi number {} from the main thread!", i);
+        thread::sleep(Duration::from_millis(1));
+    }
+
+    handle.join().unwrap();
+}
+```
+"""
+
+# ╔═╡ 86fda189-835b-4108-ada4-9df6af489f26
+md"""
+```
+hi number 1 from the main thread!
+hi number 1 from the spawned thread!
+hi number 2 from the main thread!
+hi number 2 from the spawned thread!
+hi number 3 from the main thread!
+hi number 3 from the spawned thread!
+hi number 4 from the main thread!
+hi number 4 from the spawned thread!
+hi number 5 from the spawned thread!
+hi number 6 from the spawned thread!
+hi number 7 from the spawned thread!
+hi number 8 from the spawned thread!
+hi number 9 from the spawned thread!
+```
+"""
+
+# ╔═╡ 66b3d067-59d3-4fb3-8348-56368342119f
+@mdx """
+What's going on here?
+
+* A new thread is started with `thread::spawn`, which accepts a closure
+* `thread::sleep` gives time for the computer to switch between the spawned thread and the main thread
+* `handle.join().unwrap()` keeps the threads synced. Otherwise, the shorter main thread would terminate first, and the output would just be this:
+
+	```
+	hi number 1 from the main thread!
+	hi number 1 from the spawned thread!
+	hi number 2 from the spawned thread!
+	hi number 2 from the main thread!
+	hi number 3 from the spawned thread!
+	hi number 3 from the main thread!
+	hi number 4 from the spawned thread!
+	hi number 4 from the main thread!
+	hi number 5 from the spawned thread!
+	```
+"""
+
+# ╔═╡ be3d7980-fc9f-4c6e-b625-961562ebec4d
+md"""
+Placement matters. If we were to put the `handle` here instead, it would force the main program to wait for the spawned thread process to finish first
+
+```rust
+...
+
+handle.join().unwrap();
+
+for i in 1..5 {
+	println!("hi number {} from the main thread!", i);
+	thread::sleep(Duration::from_millis(1));
+}
+```
+
+```
+hi number 1 from the spawned thread!
+hi number 2 from the spawned thread!
+hi number 3 from the spawned thread!
+hi number 4 from the spawned thread!
+hi number 5 from the spawned thread!
+hi number 6 from the spawned thread!
+hi number 7 from the spawned thread!
+hi number 8 from the spawned thread!
+hi number 9 from the spawned thread!
+hi number 1 from the main thread!
+hi number 2 from the main thread!
+hi number 3 from the main thread!
+hi number 4 from the main thread!
+```
+"""
+
+# ╔═╡ 5b1a92be-a0f2-423a-85a5-6da652681295
+md"""
+!!! warning
+	The order of the output above can vary from CPU to CPU based on its scheduler 
+"""
+
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
 @htl "<hr>"
+
+# ╔═╡ cd6ec943-2aff-49eb-a07e-1eb9060542b7
+md"""
+# Notebook setup
+"""
 
 # ╔═╡ d06e45b1-be6b-44a9-b87d-9987b5dd20be
 # https://github.com/JuliaPluto/PlutoUI.jl/issues/253
@@ -1005,6 +1121,16 @@ impl Summary for Tweet {
     }
 }
 ```
+"""
+
+# ╔═╡ c0abdf5e-e5d5-49f0-a8ae-51e87907d6ff
+html"""
+<style>
+pluto-output.rich_output p code {
+	color: var(--cm-string-color);
+	background-color: var(--blockquote-bg);
+}
+</style>
 """
 
 # ╔═╡ 13723396-21da-43d1-b27c-ea8cbefc6974
@@ -1365,8 +1491,16 @@ version = "17.4.0+0"
 # ╟─8ca48d12-fecf-41d4-a0fa-f23a9754ab75
 # ╟─42de5ec9-d53c-4e62-b825-bfedfef22ed6
 # ╟─da57887a-c3f0-40f4-bded-38fcc5ec4b13
+# ╟─72724da9-3764-4eae-9403-88c370412761
+# ╟─6eb20377-6937-4148-9bd4-7a051260953d
+# ╟─86fda189-835b-4108-ada4-9df6af489f26
+# ╟─66b3d067-59d3-4fb3-8348-56368342119f
+# ╟─be3d7980-fc9f-4c6e-b625-961562ebec4d
+# ╟─5b1a92be-a0f2-423a-85a5-6da652681295
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
+# ╟─cd6ec943-2aff-49eb-a07e-1eb9060542b7
 # ╠═d06e45b1-be6b-44a9-b87d-9987b5dd20be
+# ╠═c0abdf5e-e5d5-49f0-a8ae-51e87907d6ff
 # ╠═13723396-21da-43d1-b27c-ea8cbefc6974
 # ╠═13007fd8-16af-11ee-262b-1d147de47c9d
 # ╟─00000000-0000-0000-0000-000000000001
