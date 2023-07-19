@@ -970,6 +970,12 @@ hi number 4 from the main thread!
 ```
 """
 
+# ╔═╡ 5b1a92be-a0f2-423a-85a5-6da652681295
+md"""
+!!! warning
+	The order of the output above can vary from CPU to CPU based on its scheduler 
+"""
+
 # ╔═╡ 8b2de2e5-ea4d-46f0-8bf4-126107bc1544
 md"""
 That's all good for printing stuff, but what about accessing data?
@@ -1007,12 +1013,51 @@ Okay, that's the theory out of the way. Let's *do* stuff with it now!
 # ╔═╡ 6c95784a-220f-49eb-807e-fcc2fa546b3d
 md"""
 ## Message passing
+
+It turns out that rust's ownership rules extends very nicely to safe concurrency. The mental model is that threads are like individual processes, and *channels* are one-way connections between threads that pass data from the upstream (*transmitter*) end to the downstream (*receiver*) end. Let's see how this plays out below
 """
 
-# ╔═╡ 5b1a92be-a0f2-423a-85a5-6da652681295
+# ╔═╡ 2433208d-5acd-49bb-bf69-47af2a6a879b
 md"""
-!!! warning
-	The order of the output above can vary from CPU to CPU based on its scheduler 
+### Single transmitter, single receiver
+For starters, here's a simple example with a single transmitter and single receiver:
+
+```rust
+use std::thread;
+
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn(move || {
+    	let val = String::from("hi");
+    	tx.send(val).unwrap();
+	});
+
+	let received = rx.recv().unwrap();
+	println!("Got: {}", received);
+}
+```
+"""
+
+# ╔═╡ 8a44d44e-4cc0-4206-b530-9b864c5231c9
+md"""
+!!! note
+	`mpsc` stands for "Multiple Producer, Single Consumer." No idea why they use this terminology here instead of Transmiter/Receiver, respectively
+"""
+
+# ╔═╡ e93da072-7a6a-4672-b620-8965aa91a4bb
+md"""
+This creates `val` in a spawned process and sends its data downstream to main, where it is printed. If we were to try and use the data in `val` after it was sent downstream, we would get a compile error because it is owned by `send` at that point, and then by `recv` once it is received
+
+```rust
+tx.send(val).unwrap();
+println!("val is {}", val); // Fails
+```
+"""
+
+# ╔═╡ 1ff6c143-a824-4dc9-8ccd-8d090528f664
+md"""
+Nice! This keeps us from accidentally messing with `val` and making our data inconsistent/non-existent while working with it
 """
 
 # ╔═╡ dfb1743a-1a0a-4661-8dd3-f66b26282310
@@ -1541,10 +1586,14 @@ version = "17.4.0+0"
 # ╟─86fda189-835b-4108-ada4-9df6af489f26
 # ╟─66b3d067-59d3-4fb3-8348-56368342119f
 # ╟─be3d7980-fc9f-4c6e-b625-961562ebec4d
+# ╟─5b1a92be-a0f2-423a-85a5-6da652681295
 # ╟─8b2de2e5-ea4d-46f0-8bf4-126107bc1544
 # ╟─00f40949-fe55-4b38-a333-6ec49dc89c5f
-# ╠═6c95784a-220f-49eb-807e-fcc2fa546b3d
-# ╟─5b1a92be-a0f2-423a-85a5-6da652681295
+# ╟─6c95784a-220f-49eb-807e-fcc2fa546b3d
+# ╠═2433208d-5acd-49bb-bf69-47af2a6a879b
+# ╟─8a44d44e-4cc0-4206-b530-9b864c5231c9
+# ╟─e93da072-7a6a-4672-b620-8965aa91a4bb
+# ╟─1ff6c143-a824-4dc9-8ccd-8d090528f664
 # ╟─dfb1743a-1a0a-4661-8dd3-f66b26282310
 # ╟─cd6ec943-2aff-49eb-a07e-1eb9060542b7
 # ╠═d06e45b1-be6b-44a9-b87d-9987b5dd20be
