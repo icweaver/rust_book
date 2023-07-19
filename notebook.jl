@@ -1000,6 +1000,8 @@ let handle = thread::spawn(move || {
 	println!("Here's a vector: {:?}", v);
 }); // Yay, all happy now
 ```
+
+Okay, that's the theory out of the way. Let's *do* stuff with it now!
 """
 
 # ╔═╡ 6c95784a-220f-49eb-807e-fcc2fa546b3d
