@@ -37,7 +37,7 @@ fn turn_right(
         (0, 1) => (-1, 0),
         (-1, 0) => (0, -1),
         (0, 1) => (1, 0),
-        _ => panic!("Only 90 degree cw turn supported.")
+        _ => panic!("Only 90 degree cw turns supported.")
     };
 
     v[0] = vx;
