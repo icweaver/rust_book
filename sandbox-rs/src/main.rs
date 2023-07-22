@@ -1,21 +1,45 @@
 fn main() {
-    let s = ":) ?";
-    let x = is_yelling(s);
+    let mut u = [0, 0];
+    let mut v = [1, 0];
 
-    println!("{:?}", x);
+    let mut light_seq = vec![u];
+
+    stroke(&mut light_seq, &mut u, v, 4);
+    turn_right(&mut v);
+    stroke(&mut light_seq, &mut u, v, 4);
+    turn_right(&mut v);
+    stroke(&mut light_seq, &mut u, v, 4);
+    turn_right(&mut v);
+    stroke(&mut light_seq, &mut u, v, 4);
+
+    println!("{:?}", light_seq);
 }
 
-fn is_question(s: &str) -> bool {
-    s.chars().last().unwrap() == '?'
+fn stroke(
+    light_seq: &mut Vec<[isize; 2]>,
+    u: &mut [isize; 2],
+    v: [isize; 2],
+    n: isize,
+) {
+    for _ in 1..=n {
+        // Note: x and y are swapped in the matrix -> nested vector mental model
+        u[0] += v[1];
+        u[1] += v[0];
+        light_seq.push(*u);
+    }
 }
 
-fn is_yelling(s: &str) -> bool {
-    let mut y = s.chars()
-    .filter(|c| c.is_alphabetic()).peekable();
+fn turn_right(
+    v: &mut [isize; 2],
+) {
+    let (vx, vy) = match (v[0], v[1]) {
+        (1, 0) => (0, 1),
+        (0, 1) => (-1, 0),
+        (-1, 0) => (0, -1),
+        (0, 1) => (1, 0),
+        _ => panic!("Only 90 degree cw turn supported.")
+    };
 
-    y.all(|c| c.is_uppercase()) && y.peek().is_some()
-}
-
-fn is_silent(s: &str) -> bool {
-    s.trim().is_empty()
+    v[0] = vx;
+    v[1] = vy;
 }
